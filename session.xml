@@ -4,6 +4,7 @@
         <server Server_Name="server11">
             <csData isCmd="true" CS_Data="ls"/>
             <csData isCmd="false" CS_Data="C:\Users\Sam Yau\Documents\testscriptfile3.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
         </server>
         <server Server_Name="server12">
             <csData isCmd="true" CS_Data="ps -ef"/>

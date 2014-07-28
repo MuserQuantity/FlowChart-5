@@ -14,7 +14,7 @@ public class Session {
 
 	public static String ssoID;
 	public static LinkedList<Flow> session = new LinkedList<Flow>();
-	public static DefaultListModel flowListModel = new DefaultListModel();
+	public static DefaultListModel<Flow> flowListModel = new DefaultListModel<Flow>();
 	public static DefaultMutableTreeNode root;
 	public static Login loginWindow;
 
@@ -109,16 +109,16 @@ public class Session {
 		return false;
 	}
 
-	public static DefaultListModel getDLMofServers(TreePath path) throws Exception {
+	public static DefaultListModel<Server> getDLMofServers(TreePath path) throws Exception {
 
 		if (session.isEmpty())
-			return new DefaultListModel();
+			return new DefaultListModel<Server>();
 
 		String flowLabel = path.getPathComponent(path.getPathCount() - 1).toString();
 		for (Flow f : session) {
 			if (f.getLabel().equals(flowLabel)) {
 				if (!f.getServerList().isEmpty()) {
-					DefaultListModel serverListModel = new DefaultListModel();
+					DefaultListModel<Server> serverListModel = new DefaultListModel<Server>();
 					for (Server s : f.getServerList()) {
 						serverListModel.addElement(s);
 					}
@@ -126,12 +126,12 @@ public class Session {
 				}
 			}
 		}
-		return new DefaultListModel();
+		return new DefaultListModel<Server>();
 	}
 
-	public static DefaultListModel getDLMofCmdScripts(TreePath path) throws Exception {
+	public static DefaultListModel<CmdScript> getDLMofCmdScripts(TreePath path) throws Exception {
 		if (session.isEmpty())
-			return new DefaultListModel();
+			return new DefaultListModel<CmdScript>();
 
 		String flowLabel = path.getPathComponent(path.getPathCount() - 2).toString();
 		String serverName = path.getPathComponent(path.getPathCount() - 1).toString();
@@ -141,7 +141,7 @@ public class Session {
 					for (Server s : f.getServerList()) {
 						if (s.getServerName().equals(serverName)) {
 							if (!s.getCmdScriptList().isEmpty()) {
-								DefaultListModel csListModel = new DefaultListModel();
+								DefaultListModel<CmdScript> csListModel = new DefaultListModel<CmdScript>();
 								for (CmdScript cs : s.getCmdScriptList()) {
 									csListModel.addElement(cs);
 								}
@@ -152,7 +152,7 @@ public class Session {
 				}
 			}
 		}
-		return new DefaultListModel();
+		return new DefaultListModel<CmdScript>();
 	}
 
 	public static void popTestSession() {

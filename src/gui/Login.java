@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import model.Flow;
 import model.Session;
 import control.LoginControls;
 
@@ -33,7 +34,7 @@ public class Login extends JFrame {
 	JCheckBox saveSession;
 	boolean saveSessionBool;
 
-	JList flowList;
+	JList<Flow> flowList;
 
 	JButton newFlowButton;
 	JButton runButton;
@@ -88,7 +89,7 @@ public class Login extends JFrame {
 			usernameField.setText(Session.ssoID);
 
 		// Flow list
-		flowList = new JList(Session.flowListModel);
+		flowList = new JList<Flow>(Session.flowListModel);
 		flowList.setVisibleRowCount(12);
 		JScrollPane listPane = new JScrollPane(flowList);
 		Border listPaneBorder = BorderFactory.createTitledBorder("Flow List");

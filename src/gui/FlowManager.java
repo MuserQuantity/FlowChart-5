@@ -60,19 +60,19 @@ public class FlowManager {
 	TreePath path;
 
 	// Flow editor elements
-	JList flowList;
+	JList<Flow> flowList;
 	JScrollPane flowListScrollPane;
 	JTextField flowTextField;
 
 	// Server editor elements
-	DefaultListModel serverListModel;
-	JList serverList;
+	DefaultListModel<Server> serverListModel;
+	JList<Server> serverList;
 	JScrollPane serverListScrollPane;
 	JTextField serverTextField;
 
 	// Cmd/Script editor elements
-	DefaultListModel csListModel;
-	JList csList;
+	DefaultListModel<CmdScript> csListModel;
+	JList<CmdScript> csList;
 	JScrollPane csListScrollPane;
 	JTextField csTextField;
 
@@ -134,7 +134,8 @@ public class FlowManager {
 							// Right pane list add
 							csListModel.addElement(csToAdd);
 							// Left pane tree add
-							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(csToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(), csListModel.size() - 1);
+							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(csToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(),
+									csListModel.size() - 1);
 
 							treeScrollPane.getVerticalScrollBar().setValue(treeScrollPane.getVerticalScrollBar().getMaximum());
 							hasChanged = true;
@@ -158,7 +159,7 @@ public class FlowManager {
 		// Flow Editor
 		flowEditor = new JPanel();
 		flowEditor.setLayout(new BoxLayout(flowEditor, BoxLayout.Y_AXIS));
-		flowList = new JList(Session.flowListModel);
+		flowList = new JList<Flow>(Session.flowListModel);
 		flowList.setVisibleRowCount(100);
 		flowListScrollPane = new JScrollPane(flowList);
 		flowListScrollPane.setBorder(BorderFactory.createTitledBorder("Flow List"));
@@ -166,7 +167,7 @@ public class FlowManager {
 			public void mouseClicked(MouseEvent evt) {
 				// Deleting flows
 				if (evt.getClickCount() == 2) {
-					int index = ((JList) evt.getSource()).locationToIndex(evt.getPoint());
+					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
 						// Left pane tree remove
 						flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(Session.root, index));
@@ -217,7 +218,7 @@ public class FlowManager {
 			public void keyTyped(KeyEvent e) {
 			}
 		});
-		flowEditor.setBorder(BorderFactory.createTitledBorder("Flow Editor"));
+		flowEditor.setBorder(BorderFactory.createTitledBorder("Flow Editor for " + Session.ssoID));
 		flowEditor.add(flowListScrollPane);
 		flowEditor.add(flowTextField);
 		flowEditor.add(buttonPanel);
@@ -226,15 +227,15 @@ public class FlowManager {
 		serverEditor = new JPanel();
 		serverEditor.setLayout(new BoxLayout(serverEditor, BoxLayout.Y_AXIS));
 
-		serverListModel = new DefaultListModel();
-		serverList = new JList(serverListModel);
+		serverListModel = new DefaultListModel<Server>();
+		serverList = new JList<Server>(serverListModel);
 		serverList.setVisibleRowCount(100);
 		serverListScrollPane = new JScrollPane(serverList);
 		serverListScrollPane.setBorder(BorderFactory.createTitledBorder("Server List"));
 		serverList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				if (evt.getClickCount() == 2) {
-					int index = ((JList) evt.getSource()).locationToIndex(evt.getPoint());
+					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
 						TreePath path = flowTree.getSelectionPath();
 						// Left pane tree remove
@@ -274,7 +275,8 @@ public class FlowManager {
 							// Right pane list add
 							serverListModel.addElement(serverToAdd);
 							// Left pane tree add
-							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(serverToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(), serverListModel.size() - 1);
+							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(serverToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(),
+									serverListModel.size() - 1);
 
 							serverTextField.setText("");
 							hasChanged = true;
@@ -287,7 +289,6 @@ public class FlowManager {
 			public void keyTyped(KeyEvent e) {
 			}
 		});
-		serverEditor.setBorder(BorderFactory.createTitledBorder("Server Editor"));
 		serverEditor.add(serverListScrollPane);
 		serverEditor.add(serverTextField);
 
@@ -295,15 +296,15 @@ public class FlowManager {
 		cmdScriptEditor = new JPanel();
 		cmdScriptEditor.setLayout(new BoxLayout(cmdScriptEditor, BoxLayout.Y_AXIS));
 
-		csListModel = new DefaultListModel();
-		csList = new JList(csListModel);
+		csListModel = new DefaultListModel<CmdScript>();
+		csList = new JList<CmdScript>(csListModel);
 		csList.setVisibleRowCount(100);
 		csListScrollPane = new JScrollPane(csList);
 		csListScrollPane.setBorder(BorderFactory.createTitledBorder("Command/Script List"));
 		csList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				if (evt.getClickCount() == 2) {
-					int index = ((JList) evt.getSource()).locationToIndex(evt.getPoint());
+					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
 						TreePath path = flowTree.getSelectionPath();
 						// Left pane tree remove
@@ -342,7 +343,8 @@ public class FlowManager {
 							// Right pane list add
 							csListModel.addElement(csToAdd);
 							// Left pane tree add
-							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(csToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(), csListModel.size() - 1);
+							flowTreeModel.insertNodeInto(new DefaultMutableTreeNode(csToAdd), (DefaultMutableTreeNode) path.getLastPathComponent(),
+									csListModel.size() - 1);
 
 							csTextField.setText("");
 							hasChanged = true;
@@ -355,7 +357,6 @@ public class FlowManager {
 			public void keyTyped(KeyEvent e) {
 			}
 		});
-		cmdScriptEditor.setBorder(BorderFactory.createTitledBorder("Command/Script Editor"));
 		cmdScriptEditor.add(csListScrollPane);
 		cmdScriptEditor.add(csTextField);
 
@@ -407,7 +408,7 @@ public class FlowManager {
 			flowTree.expandRow(i);
 
 		// Split Pane setup
-		this.dividerLocation = 350;
+		this.dividerLocation = 500;
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setDividerLocation(dividerLocation);
 		splitPane.setEnabled(true);
@@ -418,7 +419,7 @@ public class FlowManager {
 
 		// GUI Setup
 		contentPane.add(splitPane);
-		contentPane.setPreferredSize(new Dimension(800, 600));
+		contentPane.setPreferredSize(new Dimension(1000, 800));
 		frame.pack();
 		frame.setVisible(true);
 		frame.setResizable(true);
@@ -431,19 +432,21 @@ public class FlowManager {
 		if (panNum == 0) { // Switch to flow editor
 			splitPane.remove(2);
 			flowEditor.add(buttonPanel);
-			flowList = new JList(Session.flowListModel);
+			flowList = new JList<Flow>(Session.flowListModel);
 			splitPane.add(flowEditor);
 		} else if (panNum == 1) { // Switch to server editor
 			splitPane.remove(2);
 			serverEditor.add(buttonPanel);
 			serverListModel = Session.getDLMofServers(path);
 			serverList.setModel(serverListModel);
+			serverEditor.setBorder(BorderFactory.createTitledBorder("Server Editor for Flow: " + path.getLastPathComponent()));
 			splitPane.add(serverEditor);
 		} else if (panNum == 2) { // Switch to cmd script editor
 			splitPane.remove(2);
 			cmdScriptEditor.add(specialScriptButtonPanel);
 			csListModel = Session.getDLMofCmdScripts(path);
 			csList.setModel(csListModel);
+			cmdScriptEditor.setBorder(BorderFactory.createTitledBorder("CMD/Script Editor for Server: " + path.getLastPathComponent()));
 			// csList.setCellRenderer(new ScriptBlueText());
 			splitPane.add(cmdScriptEditor);
 		} else if (panNum == 3) { // Switch to cmd script viewer
@@ -460,13 +463,13 @@ public class FlowManager {
 	}
 
 	@SuppressWarnings("serial")
-	class ScriptBlueText extends JLabel implements ListCellRenderer {
+	class ScriptBlueText extends JLabel implements ListCellRenderer<Object> {
 		public ScriptBlueText() {
 			setOpaque(true);
 		}
 
 		@Override
-		public Component getListCellRendererComponent(JList arg0, Object arg1, int arg2, boolean arg3, boolean arg4) {
+		public Component getListCellRendererComponent(JList<?> arg0, Object arg1, int arg2, boolean arg3, boolean arg4) {
 			setText(arg1.toString());
 			if (!((CmdScript) arg1).isCmd()) {
 				setForeground(Color.BLUE);
