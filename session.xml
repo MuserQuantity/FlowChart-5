@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sy12586>
+    <flow Flow_Label="test flow 1" isEnabled="true">
+        <server Server_Name="server11">
+            <csData isCmd="true" CS_Data="ls"/>
+            <csData isCmd="false" CS_Data="C:\Users\Sam Yau\Documents\testscriptfile3.sh"/>
+        </server>
+        <server Server_Name="server12">
+            <csData isCmd="true" CS_Data="ps -ef"/>
+        </server>
+        <server Server_Name="server13">
+            <csData isCmd="true" CS_Data="pwd"/>
+        </server>
+    </flow>
+    <flow Flow_Label="test flow 2" isEnabled="true">
+        <server Server_Name="server21">
+            <csData isCmd="true" CS_Data="ls -al"/>
+            <csData isCmd="false" CS_Data="C:\Users\Sam Yau\Documents\testscriptfile1.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\Sam Yau\Documents\testscriptfile2.sh"/>
+        </server>
+        <server Server_Name="server22">
+            <csData isCmd="true" CS_Data="bash"/>
+        </server>
+        <server Server_Name="server23">
+            <csData isCmd="true" CS_Data="ps"/>
+        </server>
+    </flow>
+    <flow Flow_Label="test flow 3" isEnabled="true">
+        <server Server_Name="server31">
+            <csData isCmd="true" CS_Data="cd -"/>
+        </server>
+        <server Server_Name="server32">
+            <csData isCmd="true" CS_Data="cd"/>
+        </server>
+        <server Server_Name="server33">
+            <csData isCmd="true" CS_Data="mkdir temp"/>
+            <csData isCmd="false" CS_Data="C:\Users\Sam Yau\Documents\testscriptfile4.sh"/>
+        </server>
+    </flow>
+</sy12586>
