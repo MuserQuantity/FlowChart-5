@@ -40,6 +40,8 @@
         <server Server_Name="server32">
             <csData isCmd="true" CS_Data="cd"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\exceptioncheck.sh"/>
         </server>
         <server Server_Name="server33">
             <csData isCmd="true" CS_Data="mkdir temp"/>

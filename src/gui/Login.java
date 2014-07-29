@@ -36,8 +36,8 @@ public class Login extends JFrame {
 
 	JList<Flow> flowList;
 
-	JButton newFlowButton;
-	JButton runButton;
+	static JButton flowManagerButton;
+	static JButton runButton;
 	JButton exitButton;
 
 	public Login(boolean savedSession) {
@@ -96,10 +96,10 @@ public class Login extends JFrame {
 		listPane.setBorder(listPaneBorder);
 
 		// New Flow Button
-		newFlowButton = new JButton("Flow Manager");
-		newFlowButton.addActionListener(new ActionListener() {
+		flowManagerButton = new JButton("Flow Manager");
+		flowManagerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginControls.newFlowButtonAction();
+				LoginControls.enterFlowManager();
 			}
 		});
 
@@ -128,7 +128,7 @@ public class Login extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(runButton);
-		buttonPanel.add(newFlowButton);
+		buttonPanel.add(flowManagerButton);
 		buttonPanel.add(exitButton);
 		overPanel.add(buttonPanel);
 
@@ -140,4 +140,11 @@ public class Login extends JFrame {
 		// this.setLocationRelativeTo(null);
 	}
 
+	public static void toggleFlowManagerButton() {
+		flowManagerButton.setEnabled(!flowManagerButton.isEnabled());
+	}
+
+	public static void toggleRunButton() {
+		runButton.setEnabled(!runButton.isEnabled());
+	}
 }

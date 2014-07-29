@@ -1,6 +1,7 @@
 package control;
 
 import gui.FlowManager;
+import gui.Login;
 
 import java.io.File;
 
@@ -11,12 +12,14 @@ public class LoginControls {
 
 	public static FlowManager flowManagerWindow;
 
-	public static void newFlowButtonAction() {
-		if (flowManagerWindow == null) {
+	public static void enterFlowManager() {
+		if (flowManagerWindow == null)
 			flowManagerWindow = new FlowManager();
-		} else {
-
+		else if (!flowManagerWindow.frame.isVisible()) {
+			flowManagerWindow.frame.setVisible(true);
 		}
+		Login.toggleFlowManagerButton();
+		Login.toggleRunButton();
 	}
 
 	public static void saveAndExitButtonAction(boolean saveSessionBool) {

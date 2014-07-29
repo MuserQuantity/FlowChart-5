@@ -1,13 +1,15 @@
 package control;
 
+import gui.Login;
+import model.Session;
+import xml.Persist;
+
 public class FlowManagerControls {
 
-	public static void saveButtonAction() {
-
+	public static void saveExitButtonAction() {
+		Persist.sessionXMLSave(Session.session);
+		LoginControls.flowManagerWindow.frame.setVisible(false);
+		Login.toggleFlowManagerButton();
+		Login.toggleRunButton();
 	}
-
-	public static void exitButtonAction(boolean isSaved) {
-
-	}
-
 }

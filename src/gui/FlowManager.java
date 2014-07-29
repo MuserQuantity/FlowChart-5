@@ -38,10 +38,11 @@ import model.CmdScript;
 import model.Flow;
 import model.Server;
 import model.Session;
+import control.FlowManagerControls;
 
 public class FlowManager {
 
-	JFrame frame;
+	public JFrame frame;
 	JPanel contentPane;
 
 	JSplitPane splitPane;
@@ -102,10 +103,20 @@ public class FlowManager {
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		exitButton = new JButton("Save and Exit Flow Manager");
+		exitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FlowManagerControls.saveExitButtonAction();
+			}
+		});
 		buttonPanel.add(exitButton);
 
 		// Button Panel specifically for importing script files
 		exitButton2 = new JButton("Save and Exit Flow Manager");
+		exitButton2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FlowManagerControls.saveExitButtonAction();
+			}
+		});
 		addScriptButton = new JButton("+Script");
 		addScriptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
