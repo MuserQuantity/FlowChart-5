@@ -12,6 +12,7 @@
         </server>
         <server Server_Name="server13">
             <csData isCmd="true" CS_Data="pwd"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
         </server>
     </flow>
     <flow Flow_Label="test flow 2" isEnabled="true">

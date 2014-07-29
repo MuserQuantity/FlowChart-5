@@ -81,13 +81,8 @@ public class FlowManager {
 
 	// Button Panel elements
 	JButton addScriptButton;
-	JButton saveButton;
-	JButton saveButton2;
 	JButton exitButton;
 	JButton exitButton2;
-
-	// Boolean switch for non committed user changes
-	boolean hasChanged;
 
 	/*
 	 * Panel switch toggle values. 0) flow editor 1) server editor 2) cmdScript
@@ -106,15 +101,11 @@ public class FlowManager {
 		// Button Panel for save and exit
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
-		saveButton = new JButton("Save Changes");
-		buttonPanel.add(saveButton);
-		saveButton.setEnabled(false);
-		exitButton = new JButton("Exit Flow Manager");
+		exitButton = new JButton("Save and Exit Flow Manager");
 		buttonPanel.add(exitButton);
 
 		// Button Panel specifically for importing script files
-		saveButton2 = new JButton("Save Changes");
-		exitButton2 = new JButton("Exit Flow Manager");
+		exitButton2 = new JButton("Save and Exit Flow Manager");
 		addScriptButton = new JButton("+Script");
 		addScriptButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -138,7 +129,6 @@ public class FlowManager {
 									csListModel.size() - 1);
 
 							treeScrollPane.getVerticalScrollBar().setValue(treeScrollPane.getVerticalScrollBar().getMaximum());
-							hasChanged = true;
 						}
 					} else {
 						// Cancel option
@@ -152,8 +142,6 @@ public class FlowManager {
 		specialScriptButtonPanel = new JPanel();
 		specialScriptButtonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		specialScriptButtonPanel.add(addScriptButton);
-		specialScriptButtonPanel.add(saveButton2);
-		saveButton.setEnabled(false);
 		specialScriptButtonPanel.add(exitButton2);
 
 		// Flow Editor
@@ -178,7 +166,6 @@ public class FlowManager {
 						// Right pane list remove
 						Session.flowListModel.removeElementAt(index);
 
-						hasChanged = true;
 					}
 				}
 			}
@@ -208,7 +195,6 @@ public class FlowManager {
 
 							flowTextField.setText("");
 							treeScrollPane.getVerticalScrollBar().setValue(treeScrollPane.getVerticalScrollBar().getMaximum());
-							hasChanged = true;
 						}
 					}
 				}
@@ -247,8 +233,6 @@ public class FlowManager {
 						}
 						// Right pane list remove
 						serverListModel.remove(index);
-
-						hasChanged = true;
 					}
 				}
 			}
@@ -279,7 +263,6 @@ public class FlowManager {
 									serverListModel.size() - 1);
 
 							serverTextField.setText("");
-							hasChanged = true;
 						}
 					}
 				}
@@ -316,8 +299,6 @@ public class FlowManager {
 						}
 						// Right pane list remove
 						csListModel.remove(index);
-
-						hasChanged = true;
 					}
 				}
 			}
@@ -347,7 +328,6 @@ public class FlowManager {
 									csListModel.size() - 1);
 
 							csTextField.setText("");
-							hasChanged = true;
 						}
 					}
 				}
