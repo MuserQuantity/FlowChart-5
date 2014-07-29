@@ -31,4 +31,8 @@ public class LoginControls {
 		}
 		System.exit(0);
 	}
+
+	public static void runButton() {
+
+	}
 }
