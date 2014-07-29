@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -17,13 +18,13 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.WindowConstants;
@@ -78,7 +79,8 @@ public class FlowManager {
 	JTextField csTextField;
 
 	// Cmd/Script viewer elements
-	JEditorPane csViewer;
+	JScrollPane csViewerScrollPane;
+	JTextArea csViewer;
 
 	// Button Panel elements
 	JButton addScriptButton;
@@ -176,7 +178,6 @@ public class FlowManager {
 						}
 						// Right pane list remove
 						Session.flowListModel.removeElementAt(index);
-
 					}
 				}
 			}
@@ -353,12 +354,14 @@ public class FlowManager {
 
 		// Cmd/Script Viewer
 		cmdScriptViewer = new JPanel();
-		cmdScriptViewer.setLayout(new BoxLayout(cmdScriptViewer, BoxLayout.Y_AXIS));
-		csViewer = new JEditorPane();
+		cmdScriptViewer.setLayout(new BorderLayout());
+		csViewer = new JTextArea();
+		csViewerScrollPane = new JScrollPane(csViewer);
 		csViewer.setBorder(BorderFactory.createTitledBorder("Command/Script Content Viewer"));
 		csViewer.setEditable(false);
 		csViewer.setFont(new Font("Consolas", Font.PLAIN, 12));
-		cmdScriptViewer.add(csViewer);
+		csViewer.setLineWrap(false);
+		cmdScriptViewer.add(csViewerScrollPane, BorderLayout.CENTER);
 
 		// Flow tree setup (left Pane)
 		flowTree = new JTree(Session.root);
@@ -443,7 +446,9 @@ public class FlowManager {
 			splitPane.add(cmdScriptEditor);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
-			cmdScriptViewer.add(buttonPanel);
+			cmdScriptViewer.add(buttonPanel, BorderLayout.PAGE_END);
+			csViewer.setText(Session.getCSData(path));
+			csViewer.setCaretPosition(0);
 			splitPane.add(cmdScriptViewer);
 		} else {
 			System.err.println("Shouldn't happen. See logs.");

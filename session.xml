@@ -36,6 +36,7 @@
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeletedbak.sh"/>
         </server>
         <server Server_Name="server32">
             <csData isCmd="true" CS_Data="cd"/>
@@ -46,6 +47,8 @@
         <server Server_Name="server33">
             <csData isCmd="true" CS_Data="mkdir temp"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\purgeTable.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\purgeData.sh"/>
         </server>
     </flow>
 </sy12586>

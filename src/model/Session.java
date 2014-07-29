@@ -2,6 +2,9 @@ package model;
 
 import gui.Login;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
@@ -153,6 +156,20 @@ public class Session {
 			}
 		}
 		return new DefaultListModel<CmdScript>();
+	}
+
+	public static String getCSData(TreePath path) throws Exception {
+		CmdScript cs = (CmdScript) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+		// If CmdScript is disabled, for now refers to broken path
+		if (!cs.isEnabled())
+			return "Unresolved file path. No content available.\nPlease delete entry and re-add file.";
+		// If CmdScript is not a CMD, it's a script, read file contents
+		if (!cs.isCmd()) {
+			return new String(Files.readAllBytes(Paths.get(cs.getData())), StandardCharsets.UTF_8);
+		}
+		// Otherwise, just a CMD, return data verbatim
+		return cs.getData();
+
 	}
 
 	public static void popTestSession() {
