@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class Alerts {
 	public static void infoBox(String infoMessage, String location) {
-		JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + location, JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, infoMessage, location, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void infoBox(String infoMessage) {

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.LinkedList;
 
+import log.Alerts;
 import model.CmdScript;
 import model.Flow;
 import model.Server;
@@ -60,6 +61,14 @@ public class Persist {
 				}
 				// Create and attach static root
 				Session.root = Converter.sessionToTreeNode(Session.session);
+
+				// Make sure script files exists from retrieved session
+				int errorCount = scriptIntegrityCheck();
+				if (errorCount > 0) { // If missing files detected
+					// Display alert
+					Alerts.infoBox(errorCount + " script files cannot be located.\nMissing script files will be highlighted red in the Flow Manager.",
+							"Script Files Retrieval Error");
+				}
 				return true;
 			}
 		} catch (Exception e) {
@@ -67,6 +76,24 @@ public class Persist {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static int scriptIntegrityCheck() {
+		int errorCount = 0;
+
+		for (Flow f : Session.session) {
+			for (Server s : f.getServerList()) {
+				for (CmdScript cs : s.getCmdScriptList()) {
+					if (!cs.isCmd()) {
+						if (!new File(cs.getData()).exists()) {
+							cs.setEnabled(false);
+							errorCount++;
+						}
+					}
+				}
+			}
+		}
+		return errorCount;
 	}
 
 	public static LinkedList<Flow> retrieveSessionfromSave() {

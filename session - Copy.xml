@@ -3,15 +3,15 @@
     <flow Flow_Label="test flow 1" isEnabled="true">
         <server Server_Name="server11">
             <csData isCmd="true" CS_Data="ls"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
         </server>
         <server Server_Name="server12">
-            <csData isCmd="false" CS_Data="/some/path/of/script1.sh"/>
             <csData isCmd="true" CS_Data="ps -ef"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script2.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\exceptioncheck.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
         </server>
         <server Server_Name="server13">
             <csData isCmd="true" CS_Data="pwd"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script3.sh"/>
         </server>
     </flow>
     <flow Flow_Label="test flow 2" isEnabled="true">
@@ -19,27 +19,30 @@
             <csData isCmd="true" CS_Data="ls -al"/>
         </server>
         <server Server_Name="server22">
-            <csData isCmd="false" CS_Data="/some/path/of/script4.sh"/>
             <csData isCmd="true" CS_Data="bash"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script5.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\exceptioncheck.sh"/>
         </server>
         <server Server_Name="server23">
             <csData isCmd="true" CS_Data="ps"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script6.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
         </server>
     </flow>
     <flow Flow_Label="test flow 3" isEnabled="true">
         <server Server_Name="server31">
             <csData isCmd="true" CS_Data="cd -"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript1.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
         </server>
         <server Server_Name="server32">
-            <csData isCmd="false" CS_Data="/some/path/of/script7.sh"/>
             <csData isCmd="true" CS_Data="cd"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script8.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
         </server>
         <server Server_Name="server33">
             <csData isCmd="true" CS_Data="mkdir temp"/>
-            <csData isCmd="false" CS_Data="/some/path/of/script9.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
         </server>
     </flow>
 </sy12586>
