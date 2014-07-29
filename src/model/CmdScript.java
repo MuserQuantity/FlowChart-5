@@ -17,7 +17,7 @@ public class CmdScript {
 		if (isCmd)
 			return "[CMD] " + data;
 		else
-			return "[Script] " + data;
+			return data;
 	}
 
 	public Boolean isCmd() {

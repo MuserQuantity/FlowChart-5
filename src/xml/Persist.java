@@ -67,7 +67,7 @@ public class Persist {
 				if (errorCount > 0) { // If missing files detected
 					// Display alert
 					Alerts.infoBox(errorCount + " script files cannot be located.\nMissing script files will be highlighted red in the Flow Manager.",
-							"Script Files Retrieval Error");
+							"Script Files Unresolved");
 				}
 				return true;
 			}
@@ -80,7 +80,6 @@ public class Persist {
 
 	public static int scriptIntegrityCheck() {
 		int errorCount = 0;
-
 		for (Flow f : Session.session) {
 			for (Server s : f.getServerList()) {
 				for (CmdScript cs : s.getCmdScriptList()) {

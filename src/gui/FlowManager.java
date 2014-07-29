@@ -14,22 +14,22 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.ListCellRenderer;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -406,6 +406,7 @@ public class FlowManager {
 		treeScrollPane.setBorder(BorderFactory.createTitledBorder("Floverview"));
 		for (int i = 0; i < flowTree.getRowCount(); i++)
 			flowTree.expandRow(i);
+		flowTree.setCellRenderer(new ScriptDisabledRedTreeRenderer());
 
 		// Split Pane setup
 		this.dividerLocation = 500;
@@ -447,7 +448,7 @@ public class FlowManager {
 			csListModel = Session.getDLMofCmdScripts(path);
 			csList.setModel(csListModel);
 			cmdScriptEditor.setBorder(BorderFactory.createTitledBorder("CMD/Script Editor for Server: " + path.getLastPathComponent()));
-			// csList.setCellRenderer(new ScriptBlueText());
+			csList.setCellRenderer(new ScriptBlueDisabledRedTextRenderer());
 			splitPane.add(cmdScriptEditor);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
@@ -463,20 +464,38 @@ public class FlowManager {
 	}
 
 	@SuppressWarnings("serial")
-	class ScriptBlueText extends JLabel implements ListCellRenderer<Object> {
-		public ScriptBlueText() {
-			setOpaque(true);
+	class ScriptDisabledRedTreeRenderer extends DefaultTreeCellRenderer {
+		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
+			if (leaf) {
+				CmdScript cs = (CmdScript) ((DefaultMutableTreeNode) value).getUserObject();
+				if (!cs.isCmd()) {
+					if (!cs.isEnabled()) {
+						setForeground(Color.RED);
+					} else {
+						setForeground(Color.BLUE);
+					}
+				} else {
+					setForeground(Color.BLACK);
+				}
+			}
+			return this;
 		}
+	}
 
+	@SuppressWarnings("serial")
+	class ScriptBlueDisabledRedTextRenderer extends DefaultListCellRenderer {
 		@Override
-		public Component getListCellRendererComponent(JList<?> arg0, Object arg1, int arg2, boolean arg3, boolean arg4) {
-			setText(arg1.toString());
-			if (!((CmdScript) arg1).isCmd()) {
-				setForeground(Color.BLUE);
-				setBackground(Color.WHITE);
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+			if (!((CmdScript) value).isCmd()) {
+				if (!((CmdScript) value).isEnabled()) {
+					setForeground(Color.RED);
+				} else {
+					setForeground(Color.BLUE);
+				}
 			} else {
 				setForeground(Color.BLACK);
-				setBackground(Color.WHITE);
 			}
 			return this;
 		}
