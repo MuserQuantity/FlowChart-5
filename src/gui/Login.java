@@ -166,7 +166,6 @@ public class Login {
 	}
 
 	public static void toggleRunButton() {
-		// runButton.setEnabled(!runButton.isEnabled());
 		// Disable if Flow Manager Window is open/active
 		if (LoginControls.flowManagerWindow != null && LoginControls.flowManagerWindow.frame.isVisible()) {
 			runButton.setEnabled(false);
@@ -180,9 +179,13 @@ public class Login {
 					activeFlows++;
 			}
 			// Enable if there are active Flows
-			if (activeFlows > 0)
-				runButton.setEnabled(true);
-			else
+			if (activeFlows > 0) {
+				// And only if those active Flows have "full" paths
+				if (Session.existsFullPath())
+					runButton.setEnabled(true);
+				else
+					runButton.setEnabled(false);
+			} else
 				// Disable if there are no active Flows
 				runButton.setEnabled(false);
 		}

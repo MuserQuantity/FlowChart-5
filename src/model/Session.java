@@ -172,6 +172,24 @@ public class Session {
 
 	}
 
+	public static boolean existsFullPath() {
+		if (!session.isEmpty()) {
+			for (Flow f : session) {
+				if (!f.getServerList().isEmpty()) {
+					for (Server s : f.getServerList()) {
+						if (!s.getCmdScriptList().isEmpty()) {
+							for (CmdScript cs : s.getCmdScriptList()) {
+								if (cs.isEnabled())
+									return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public static void popTestSession() {
 		Flow f1 = new Flow("test flow 1");
 		Server s11 = new Server("server11");
