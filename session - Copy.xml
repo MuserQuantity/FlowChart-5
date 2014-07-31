@@ -12,6 +12,7 @@
         </server>
         <server Server_Name="server13">
             <csData isCmd="true" CS_Data="pwd"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
         </server>
     </flow>
     <flow Flow_Label="test flow 2" isEnabled="true">
@@ -28,21 +29,26 @@
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
         </server>
     </flow>
-    <flow Flow_Label="test flow 3" isEnabled="true">
+    <flow Flow_Label="test flow 3" isEnabled="false">
         <server Server_Name="server31">
             <csData isCmd="true" CS_Data="cd -"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript1.sh"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeletedbak.sh"/>
         </server>
         <server Server_Name="server32">
             <csData isCmd="true" CS_Data="cd"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript3.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\exceptioncheck.sh"/>
         </server>
         <server Server_Name="server33">
             <csData isCmd="true" CS_Data="mkdir temp"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\tobedeleted.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\purgeTable.sh"/>
+            <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\purgeData.sh"/>
         </server>
     </flow>
 </sy12586>

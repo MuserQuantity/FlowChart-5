@@ -104,9 +104,12 @@ public class Login {
 			public void mouseClicked(MouseEvent evt) {
 				int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 				if (evt.getClickCount() == 2) {
-					// Disable/Enable Flow when double clicked
-					Session.session.get(index).setEnabled(!Session.session.get(index).isEnabled());
-					flowList.setCellRenderer(new DisabledFlowCellRenderer());
+					if (index >= 0) {
+						// Disable/Enable Flow when double clicked
+						Session.session.get(index).setEnabled(!Session.session.get(index).isEnabled());
+						flowList.setCellRenderer(new DisabledFlowCellRenderer());
+						toggleRunButton();
+					}
 				}
 			}
 		});
@@ -127,6 +130,7 @@ public class Login {
 				LoginControls.runButton();
 			}
 		});
+		toggleRunButton();
 
 		// Save and exit button
 		exitButton = new JButton("Save and Exit");
@@ -162,7 +166,26 @@ public class Login {
 	}
 
 	public static void toggleRunButton() {
-		runButton.setEnabled(!runButton.isEnabled());
+		// runButton.setEnabled(!runButton.isEnabled());
+		// Disable if Flow Manager Window is open/active
+		if (LoginControls.flowManagerWindow != null && LoginControls.flowManagerWindow.frame.isVisible()) {
+			runButton.setEnabled(false);
+		} else if (Session.session.isEmpty()) {
+			// Disable if there are no Flows
+			runButton.setEnabled(false);
+		} else {
+			int activeFlows = 0;
+			for (Flow f : Session.session) {
+				if (f.isEnabled())
+					activeFlows++;
+			}
+			// Enable if there are active Flows
+			if (activeFlows > 0)
+				runButton.setEnabled(true);
+			else
+				// Disable if there are no active Flows
+				runButton.setEnabled(false);
+		}
 	}
 
 	public static void toggleFlowListSelectable() {

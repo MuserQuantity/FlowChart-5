@@ -466,15 +466,17 @@ public class FlowManager {
 		public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 			super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 			if (leaf) {
-				CmdScript cs = (CmdScript) ((DefaultMutableTreeNode) value).getUserObject();
-				if (!cs.isCmd()) {
-					if (!cs.isEnabled()) {
-						setForeground(Color.RED);
+				if (((DefaultMutableTreeNode) value).getUserObject() instanceof CmdScript) {
+					CmdScript cs = (CmdScript) ((DefaultMutableTreeNode) value).getUserObject();
+					if (!cs.isCmd()) {
+						if (!cs.isEnabled()) {
+							setForeground(Color.RED);
+						} else {
+							setForeground(Color.BLUE);
+						}
 					} else {
-						setForeground(Color.BLUE);
+						setForeground(Color.BLACK);
 					}
-				} else {
-					setForeground(Color.BLACK);
 				}
 			} else {
 				if (((DefaultMutableTreeNode) value).getUserObject() instanceof Flow) {
