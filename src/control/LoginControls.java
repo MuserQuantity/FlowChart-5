@@ -5,6 +5,9 @@ import gui.Login;
 
 import java.io.File;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import model.Session;
 import xml.Persist;
 
@@ -21,6 +24,9 @@ public class LoginControls {
 		Login.toggleFlowManagerButton();
 		Login.toggleRunButton();
 		Login.toggleFlowListSelectable();
+		Login.togglePaswordField();
+		Login.toggleUsernameField();
+		Login.toggleSaveSessionBox();
 	}
 
 	public static void saveAndExitButtonAction(boolean saveSessionBool) {
@@ -33,7 +39,23 @@ public class LoginControls {
 		System.exit(0);
 	}
 
+	public static void exportSessionAction() throws Exception {
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileNameExtensionFilter("Shell Script Files", "sh", "bash"));
+		int returnVal = fc.showSaveDialog(fc);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String scriptFilePath = fc.getSelectedFile().getCanonicalPath();
+			System.out.println(scriptFilePath);
+		} else {
+			// Cancel export
+		}
+	}
+
+	public static void importSessionAction() throws Exception {
+
+	}
+
 	public static void runButton() {
-		int countEnabledFlows = 0;
+
 	}
 }

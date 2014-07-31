@@ -16,6 +16,7 @@ import xml.Persist;
 public class Session {
 
 	public static String ssoID;
+	public static String sessionPath;
 	public static LinkedList<Flow> session = new LinkedList<Flow>();
 	public static DefaultListModel<Flow> flowListModel = new DefaultListModel<Flow>();
 	public static DefaultMutableTreeNode root;

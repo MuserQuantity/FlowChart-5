@@ -5,6 +5,7 @@ public class CmdScript {
 	Boolean isCmd;
 	String data;
 	boolean enabled;
+	String response;
 
 	public CmdScript(boolean isCommand, String d) {
 		this.isCmd = isCommand;

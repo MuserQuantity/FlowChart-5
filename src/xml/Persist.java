@@ -19,11 +19,14 @@ import nu.xom.Serializer;
 
 public class Persist {
 
+	static File xmlFile;
+
 	public static Document sessionToXMLDoc(LinkedList<Flow> session) {
 		if (session == null) {
 
 		}
 		Element root = new Element(Session.ssoID);
+		// root.addAttribute(new Attribute("sessionPath", Session.sessionPath));
 		for (Flow f : session) {
 			Element flow = new Element("flow");
 			flow.addAttribute(new Attribute("Flow_Label", f.getLabel()));
@@ -151,6 +154,5 @@ public class Persist {
 			// TODO logger
 			e.printStackTrace();
 		}
-
 	}
 }

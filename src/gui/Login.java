@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -17,6 +18,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -30,14 +34,18 @@ import control.LoginControls;
 
 public class Login {
 
-	JFrame frame;
+	public static JFrame frame;
 	JPanel overPanel;
 	JPanel saveFieldPanel;
 
-	JTextField usernameField;
-	JPasswordField passwordField;
+	JMenuBar menuBar;
+	JMenu menu;
+	JMenuItem importSession, exportSession;
 
-	JCheckBox saveSession;
+	static JTextField usernameField;
+	static JPasswordField passwordField;
+
+	static JCheckBox saveSession;
 	boolean saveSessionBool;
 
 	static JList<Flow> flowList;
@@ -50,6 +58,37 @@ public class Login {
 		frame = new JFrame("Login");
 		overPanel = new JPanel();
 		overPanel.setLayout(new BoxLayout(overPanel, BoxLayout.Y_AXIS));
+
+		// Import/Export Session Menu
+		menuBar = new JMenuBar();
+		menu = new JMenu("Session");
+		menu.setMnemonic(KeyEvent.VK_S);
+		menu.getAccessibleContext().setAccessibleDescription("Import or Export Session XML files");
+		importSession = new JMenuItem("Import");
+		importSession.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					LoginControls.importSessionAction();
+				} catch (Exception e) {
+					e.printStackTrace();
+					// TODO logger
+				}
+			}
+		});
+		exportSession = new JMenuItem("Export");
+		exportSession.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					LoginControls.exportSessionAction();
+				} catch (Exception e) {
+					e.printStackTrace();
+					// TODO logger
+				}
+			}
+		});
+		menu.add(importSession);
+		menu.add(exportSession);
+		menuBar.add(menu);
 
 		// Username, SSOID
 		usernameField = new JTextField();
@@ -153,16 +192,13 @@ public class Login {
 		buttonPanel.add(exitButton);
 		overPanel.add(buttonPanel);
 
+		frame.setJMenuBar(menuBar);
 		frame.add(overPanel);
-		frame.setSize(290, 380);
+		frame.setSize(290, 400);
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		// this.setLocationRelativeTo(null);
-	}
-
-	public static void toggleFlowManagerButton() {
-		flowManagerButton.setEnabled(!flowManagerButton.isEnabled());
+		frame.setLocationRelativeTo(null);
 	}
 
 	public static void toggleRunButton() {
@@ -191,8 +227,24 @@ public class Login {
 		}
 	}
 
+	public static void toggleFlowManagerButton() {
+		flowManagerButton.setEnabled(!flowManagerButton.isEnabled());
+	}
+
 	public static void toggleFlowListSelectable() {
 		flowList.setEnabled(!flowList.isEnabled());
+	}
+
+	public static void toggleUsernameField() {
+		usernameField.setEnabled(!usernameField.isEnabled());
+	}
+
+	public static void togglePaswordField() {
+		passwordField.setEnabled(!passwordField.isEnabled());
+	}
+
+	public static void toggleSaveSessionBox() {
+		saveSession.setEnabled(!saveSession.isEnabled());
 	}
 
 	@SuppressWarnings("serial")
