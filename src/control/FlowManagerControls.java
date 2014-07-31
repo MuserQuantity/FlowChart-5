@@ -11,5 +11,6 @@ public class FlowManagerControls {
 		LoginControls.flowManagerWindow.frame.setVisible(false);
 		Login.toggleFlowManagerButton();
 		Login.toggleRunButton();
+		Login.toggleFlowListSelectable();
 	}
 }

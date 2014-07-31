@@ -113,6 +113,8 @@ public class Persist {
 				Element flow = flows.get(i);
 				Elements servers = flow.getChildElements();
 				Flow f = new Flow(flow.getAttributeValue("Flow_Label"));
+				if (flow.getAttributeValue("isEnabled").equalsIgnoreCase("false"))
+					f.setEnabled(false);
 				for (int j = 0; j < servers.size(); j++) {
 					Element server = servers.get(j);
 					Elements cmdScripts = server.getChildElements();

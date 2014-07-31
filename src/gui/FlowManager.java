@@ -164,6 +164,7 @@ public class FlowManager {
 		flowList.setVisibleRowCount(100);
 		flowListScrollPane = new JScrollPane(flowList);
 		flowListScrollPane.setBorder(BorderFactory.createTitledBorder("Flow List"));
+		flowList.setCellRenderer(new DisabledFlowCellRenderer());
 		flowList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 				// Deleting flows
@@ -398,6 +399,7 @@ public class FlowManager {
 			}
 		});
 		treeScrollPane.setBorder(BorderFactory.createTitledBorder("Floverview"));
+		// Expand all rows in tree
 		for (int i = 0; i < flowTree.getRowCount(); i++)
 			flowTree.expandRow(i);
 		flowTree.setCellRenderer(new ScriptDisabledRedTreeRenderer());
@@ -474,6 +476,14 @@ public class FlowManager {
 				} else {
 					setForeground(Color.BLACK);
 				}
+			} else {
+				if (((DefaultMutableTreeNode) value).getUserObject() instanceof Flow) {
+					Flow f = (Flow) ((DefaultMutableTreeNode) value).getUserObject();
+					if (!f.isEnabled()) {
+						setForeground(Color.ORANGE);
+					}
+				}
+
 			}
 			return this;
 		}
@@ -492,6 +502,18 @@ public class FlowManager {
 				}
 			} else {
 				setForeground(Color.BLACK);
+			}
+			return this;
+		}
+	}
+
+	@SuppressWarnings("serial")
+	class DisabledFlowCellRenderer extends DefaultListCellRenderer {
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+			if (!((Flow) value).isEnabled()) {
+				setForeground(Color.ORANGE);
 			}
 			return this;
 		}

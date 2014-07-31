@@ -1,12 +1,17 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -16,15 +21,16 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
 import model.Flow;
 import model.Session;
 import control.LoginControls;
 
-@SuppressWarnings("serial")
-public class Login extends JFrame {
+public class Login {
 
+	JFrame frame;
 	JPanel overPanel;
 	JPanel saveFieldPanel;
 
@@ -34,14 +40,14 @@ public class Login extends JFrame {
 	JCheckBox saveSession;
 	boolean saveSessionBool;
 
-	JList<Flow> flowList;
+	static JList<Flow> flowList;
 
 	static JButton flowManagerButton;
 	static JButton runButton;
 	JButton exitButton;
 
 	public Login(boolean savedSession) {
-		super("Login");
+		frame = new JFrame("Login");
 		overPanel = new JPanel();
 		overPanel.setLayout(new BoxLayout(overPanel, BoxLayout.Y_AXIS));
 
@@ -94,6 +100,17 @@ public class Login extends JFrame {
 		JScrollPane listPane = new JScrollPane(flowList);
 		Border listPaneBorder = BorderFactory.createTitledBorder("Flow List");
 		listPane.setBorder(listPaneBorder);
+		flowList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
+				if (evt.getClickCount() == 2) {
+					// Disable/Enable Flow when double clicked
+					Session.session.get(index).setEnabled(!Session.session.get(index).isEnabled());
+					flowList.setCellRenderer(new DisabledFlowCellRenderer());
+				}
+			}
+		});
+		flowList.setCellRenderer(new DisabledFlowCellRenderer());
 
 		// New Flow Button
 		flowManagerButton = new JButton("Flow Manager");
@@ -132,11 +149,11 @@ public class Login extends JFrame {
 		buttonPanel.add(exitButton);
 		overPanel.add(buttonPanel);
 
-		this.add(overPanel);
-		this.setSize(290, 380);
-		this.setVisible(true);
-		this.setResizable(false);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		frame.add(overPanel);
+		frame.setSize(290, 380);
+		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		// this.setLocationRelativeTo(null);
 	}
 
@@ -146,5 +163,21 @@ public class Login extends JFrame {
 
 	public static void toggleRunButton() {
 		runButton.setEnabled(!runButton.isEnabled());
+	}
+
+	public static void toggleFlowListSelectable() {
+		flowList.setEnabled(!flowList.isEnabled());
+	}
+
+	@SuppressWarnings("serial")
+	class DisabledFlowCellRenderer extends DefaultListCellRenderer {
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+			super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+			if (!((Flow) value).isEnabled()) {
+				setForeground(Color.ORANGE);
+			}
+			return this;
+		}
 	}
 }

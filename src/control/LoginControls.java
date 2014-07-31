@@ -20,6 +20,7 @@ public class LoginControls {
 		}
 		Login.toggleFlowManagerButton();
 		Login.toggleRunButton();
+		Login.toggleFlowListSelectable();
 	}
 
 	public static void saveAndExitButtonAction(boolean saveSessionBool) {

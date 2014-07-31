@@ -29,7 +29,7 @@
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript2.sh"/>
         </server>
     </flow>
-    <flow Flow_Label="test flow 3" isEnabled="true">
+    <flow Flow_Label="test flow 3" isEnabled="false">
         <server Server_Name="server31">
             <csData isCmd="true" CS_Data="cd -"/>
             <csData isCmd="false" CS_Data="C:\Users\sy12586\Documents\shellscript1.sh"/>
