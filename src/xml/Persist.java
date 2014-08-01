@@ -19,8 +19,6 @@ import nu.xom.Serializer;
 
 public class Persist {
 
-	static File xmlFile;
-
 	public static Document sessionToXMLDoc(LinkedList<Flow> session) {
 		if (session == null) {
 
@@ -47,15 +45,12 @@ public class Persist {
 		return doc;
 	}
 
-	public static boolean startupXMLRoutine() {
+	public static boolean startupXMLRoutine(File xmlSession) {
 		try {
-			// Check if previous session xml file exists
-			File xmlFile = new File("session.xml");
-			if (!xmlFile.exists()) { // File doesn't exist, create new
-				xmlFile.createNewFile();
-				return false;
-			} else { // File exists, retrieve session data
-				Session.session = retrieveSessionfromSave();
+			// TODO check XSD validate XML file schema. make sure well-formed
+			if (xmlSessionSchemaCheck(xmlSession)) {
+				// If good, attach it to session
+				Session.session = retrieveSessionfromSave(xmlSession);
 				if (!Session.session.isEmpty()) { // Attach to DefaultListModel
 					for (Flow f : Session.session) {
 						Session.flowListModel.addElement(f);
@@ -71,13 +66,26 @@ public class Persist {
 					Alerts.infoBox(errorCount + " script files cannot be located.\nMissing script files will be highlighted red in the Flow Manager.",
 							"Script Files Unresolved");
 				}
+
+				// Start Login window
+				Session.startLogin();
+
 				return true;
+			} else {
+				Alerts.infoBox("Malformed XML Session File, please check integrity of XML session schema.", "Malformed Imported XML Schema");
+				return false;
 			}
+
 		} catch (Exception e) {
 			// TODO logger
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public static boolean xmlSessionSchemaCheck(File xml) {
+		// TODO xml schema check
+		return true;
 	}
 
 	public static int scriptIntegrityCheck() {
@@ -97,12 +105,11 @@ public class Persist {
 		return errorCount;
 	}
 
-	public static LinkedList<Flow> retrieveSessionfromSave() {
+	public static LinkedList<Flow> retrieveSessionfromSave(File xmlSession) {
 		LinkedList<Flow> session = new LinkedList<Flow>();
 		try {
-			File xmlFile = new File("session.xml");
 			Builder builder = new Builder();
-			FileInputStream is = new FileInputStream(xmlFile);
+			FileInputStream is = new FileInputStream(xmlSession);
 
 			Document doc = builder.build(is);
 

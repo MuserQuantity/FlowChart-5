@@ -1,5 +1,6 @@
 package model;
 
+import gui.Bootup;
 import gui.Login;
 
 import java.nio.charset.StandardCharsets;
@@ -11,8 +12,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import xml.Persist;
-
 public class Session {
 
 	public static String ssoID;
@@ -23,16 +22,19 @@ public class Session {
 
 	public static void main(String[] args) {
 		try {
-			// Request session XML load
-
-			// Display login window & kick off XML persistence logic
-			loginWindow = new Login(Persist.startupXMLRoutine());
+			// Request session XML load/new on boot
+			new Bootup();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO logger
 		}
 
+	}
+
+	// Kick off Login window
+	public static void startLogin() {
+		loginWindow = new Login(true);
 	}
 
 	// Session (memory) add/remove operations

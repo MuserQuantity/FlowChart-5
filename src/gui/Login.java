@@ -194,7 +194,7 @@ public class Login {
 
 		frame.setJMenuBar(menuBar);
 		frame.add(overPanel);
-		frame.setSize(290, 400);
+		frame.setSize(290, 380);
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
