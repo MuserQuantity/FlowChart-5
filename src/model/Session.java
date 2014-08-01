@@ -12,6 +12,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import responseModel.Response;
+import shell.Access;
+
 public class Session {
 
 	public static String ssoID;
@@ -19,6 +22,7 @@ public class Session {
 	public static DefaultListModel<Flow> flowListModel = new DefaultListModel<Flow>();
 	public static DefaultMutableTreeNode root;
 	public static Login loginWindow;
+	public static Response responses = new Response();
 
 	public static void main(String[] args) {
 		try {
@@ -30,6 +34,14 @@ public class Session {
 			// TODO logger
 		}
 
+	}
+
+	public static void querySession(String pw) {
+		// TODO multithreaded implementation
+		for (Flow f : session) {
+			Access a = new Access(f, pw);
+			a.startConnectionRoutine();
+		}
 	}
 
 	// Kick off Login window

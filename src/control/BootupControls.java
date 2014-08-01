@@ -34,6 +34,7 @@ public class BootupControls {
 
 	public static void newSessionButtonAction(JFrame bootup) throws Exception {
 		// Prompt user path to save new session XML file
+		@SuppressWarnings("serial")
 		JFileChooser fc = new JFileChooser() {
 			@Override
 			public void approveSelection() {

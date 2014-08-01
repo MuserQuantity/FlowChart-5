@@ -171,7 +171,7 @@ public class Login {
 		runButton = new JButton("Run");
 		runButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginControls.runButton();
+				LoginControls.runButton(String.valueOf(passwordField.getPassword()));
 			}
 		});
 		toggleRunButton();

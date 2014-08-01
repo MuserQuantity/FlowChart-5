@@ -19,8 +19,8 @@ public class LoginControls {
 
 	public static FlowManager flowManagerWindow;
 
-	public static void runButton() {
-
+	public static void runButton(String pw) {
+		Session.querySession(pw);
 	}
 
 	public static void enterFlowManager(String ssoid) {
@@ -47,6 +47,7 @@ public class LoginControls {
 
 	public static void exportSessionAction() throws Exception {
 		// Prompt user path to save new session XML file
+		@SuppressWarnings("serial")
 		JFileChooser fc = new JFileChooser() {
 			@Override
 			public void approveSelection() {
