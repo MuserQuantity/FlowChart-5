@@ -27,7 +27,7 @@ public class Bootup {
 
 	public Bootup() {
 
-		frame = new JFrame("Load Session");
+		frame = new JFrame("Welcome to FlowChart!");
 		overPanel = new JPanel();
 		overPanel.setLayout(new GridLayout(2, 1, 5, 5));
 		buttonPanel = new JPanel();

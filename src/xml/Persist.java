@@ -19,9 +19,12 @@ import nu.xom.Serializer;
 
 public class Persist {
 
-	public static Document sessionToXMLDoc(LinkedList<Flow> session) {
-		if (session == null) {
+	static String savePath;
 
+	public static Document sessionToXMLDoc(LinkedList<Flow> session) {
+
+		if (Session.ssoID == null) {
+			Session.ssoID = "SSOID";
 		}
 		Element root = new Element(Session.ssoID);
 		for (Flow f : session) {
@@ -68,7 +71,7 @@ public class Persist {
 				}
 
 				// Start Login window
-				Session.startLogin();
+				Session.startLogin(true);
 
 				return true;
 			} else {
@@ -149,16 +152,29 @@ public class Persist {
 
 	public static void sessionXMLSave(LinkedList<Flow> session) {
 		try {
-			File xmlFile = new File("session.xml");
+			File xmlFile = new File(savePath);
 			FileOutputStream fos = new FileOutputStream(xmlFile);
 			Serializer s = new Serializer(fos, "ISO-8859-1");
 			s.setIndent(4);
 			s.setMaxLength(500);
 			s.write(sessionToXMLDoc(session));
 			fos.close();
+
 		} catch (Exception e) {
 			// TODO logger
 			e.printStackTrace();
 		}
+	}
+
+	public static void setSavePath(String scriptFilePath) {
+		// Detect if .xml extension is added, if not, append it
+		if (!scriptFilePath.substring(scriptFilePath.length() - 4).equalsIgnoreCase(".xml"))
+			scriptFilePath += ".xml";
+
+		savePath = scriptFilePath;
+	}
+
+	public static String getSavePath() {
+		return savePath;
 	}
 }

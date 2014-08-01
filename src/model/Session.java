@@ -33,8 +33,8 @@ public class Session {
 	}
 
 	// Kick off Login window
-	public static void startLogin() {
-		loginWindow = new Login(true);
+	public static void startLogin(boolean isOldSession) {
+		loginWindow = new Login(isOldSession);
 	}
 
 	// Session (memory) add/remove operations

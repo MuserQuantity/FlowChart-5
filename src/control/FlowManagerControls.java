@@ -14,7 +14,6 @@ public class FlowManagerControls {
 		Login.toggleFlowListSelectable();
 		Login.togglePaswordField();
 		Login.toggleUsernameField();
-		Login.toggleSaveSessionBox();
 		Login.frame.toFront();
 		Login.frame.repaint();
 	}

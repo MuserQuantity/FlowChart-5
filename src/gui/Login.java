@@ -4,19 +4,20 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -36,17 +37,13 @@ public class Login {
 
 	public static JFrame frame;
 	JPanel overPanel;
-	JPanel saveFieldPanel;
 
 	JMenuBar menuBar;
 	JMenu menu;
-	JMenuItem importSession, exportSession;
+	JMenuItem exportSession;
 
 	static JTextField usernameField;
 	static JPasswordField passwordField;
-
-	static JCheckBox saveSession;
-	boolean saveSessionBool;
 
 	static JList<Flow> flowList;
 
@@ -54,8 +51,16 @@ public class Login {
 	static JButton runButton;
 	JButton exitButton;
 
-	public Login(boolean savedSession) {
+	public Login(final boolean isOldSession) {
 		frame = new JFrame("Login");
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e) {
+				if (isOldSession)
+					passwordField.requestFocus();
+				else
+					frame.requestFocus();
+			}
+		});
 		overPanel = new JPanel();
 		overPanel.setLayout(new BoxLayout(overPanel, BoxLayout.Y_AXIS));
 
@@ -64,17 +69,6 @@ public class Login {
 		menu = new JMenu("Session");
 		menu.setMnemonic(KeyEvent.VK_S);
 		menu.getAccessibleContext().setAccessibleDescription("Import or Export Session XML files");
-		importSession = new JMenuItem("Import");
-		importSession.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				try {
-					LoginControls.importSessionAction();
-				} catch (Exception e) {
-					e.printStackTrace();
-					// TODO logger
-				}
-			}
-		});
 		exportSession = new JMenuItem("Export");
 		exportSession.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -86,14 +80,8 @@ public class Login {
 				}
 			}
 		});
-		menu.add(importSession);
 		menu.add(exportSession);
 		menuBar.add(menu);
-
-		// Username, SSOID
-		usernameField = new JTextField();
-		Border usernameBorder = BorderFactory.createTitledBorder("Username");
-		usernameField.setBorder(usernameBorder);
 
 		// Password (UNIX boxes)
 		passwordField = new JPasswordField();
@@ -107,31 +95,35 @@ public class Login {
 			}
 		});
 
-		// Save session/credentials checkbox and logic
-		saveSessionBool = savedSession;
-		saveFieldPanel = new JPanel();
-		saveFieldPanel.setLayout(new BoxLayout(saveFieldPanel, BoxLayout.X_AXIS));
-		saveSession = new JCheckBox("Save session");
-		if (saveSessionBool) {
-			saveSession.setSelected(true);
-		} else
-			saveSession.setSelected(false);
-		saveFieldPanel.add(saveSession);
-		saveSession.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getSource() == saveSession) {
-					if (saveSession.isSelected()) {
-						saveSessionBool = true;
-					} else {
-						saveSessionBool = false;
-					}
-				}
+		// Username, SSOID
+		usernameField = new JTextField();
+		Border usernameBorder = BorderFactory.createTitledBorder("Username");
+		usernameField.setBorder(usernameBorder);
+		if (isOldSession)
+			usernameField.setText(Session.ssoID);
+		else
+			usernameField.setText("Enter SSOID here to enter Flow Manager");
+		usernameField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if (usernameField.getText().isEmpty()) {
+					usernameField.getText().equals("Enter SSOID here to enter Flow Manager");
+				} else
+					flowManagerButton.setEnabled(true);
 			}
 		});
-		saveFieldPanel.add(new JLabel("                                                          "));
-		if (saveSessionBool)
-			usernameField.setText(Session.ssoID);
+		usernameField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				if (usernameField.getText().equals("Enter SSOID here to enter Flow Manager"))
+					usernameField.setText("");
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if (usernameField.getText().isEmpty())
+					usernameField.setText("Enter SSOID here to enter Flow Manager");
+			}
+		});
 
 		// Flow list
 		flowList = new JList<Flow>(Session.flowListModel);
@@ -161,6 +153,8 @@ public class Login {
 				LoginControls.enterFlowManager();
 			}
 		});
+		if (!isOldSession)
+			flowManagerButton.setEnabled(false);
 
 		// Run button
 		runButton = new JButton("Run");
@@ -175,14 +169,13 @@ public class Login {
 		exitButton = new JButton("Save and Exit");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginControls.saveAndExitButtonAction(saveSessionBool);
+				LoginControls.saveAndExitButtonAction();
 			}
 		});
 
 		// GUI layout
 		overPanel.add(usernameField);
 		overPanel.add(passwordField);
-		overPanel.add(saveFieldPanel);
 		overPanel.add(listPane);
 
 		JPanel buttonPanel = new JPanel();
@@ -241,10 +234,6 @@ public class Login {
 
 	public static void togglePaswordField() {
 		passwordField.setEnabled(!passwordField.isEnabled());
-	}
-
-	public static void toggleSaveSessionBox() {
-		saveSession.setEnabled(!saveSession.isEnabled());
 	}
 
 	@SuppressWarnings("serial")

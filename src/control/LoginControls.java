@@ -3,8 +3,6 @@ package control;
 import gui.FlowManager;
 import gui.Login;
 
-import java.io.File;
-
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -30,16 +28,10 @@ public class LoginControls {
 		Login.toggleFlowListSelectable();
 		Login.togglePaswordField();
 		Login.toggleUsernameField();
-		Login.toggleSaveSessionBox();
 	}
 
-	public static void saveAndExitButtonAction(boolean saveSessionBool) {
-		if (saveSessionBool) {
-			Persist.sessionXMLSave(Session.session);
-		} else {
-			File fileToRemove = new File("session.xml");
-			fileToRemove.delete();
-		}
+	public static void saveAndExitButtonAction() {
+		Persist.sessionXMLSave(Session.session);
 		System.exit(0);
 	}
 
@@ -47,18 +39,6 @@ public class LoginControls {
 		JFileChooser fc = new JFileChooser();
 		fc.setFileFilter(new FileNameExtensionFilter("Shell Script Files", "sh", "bash"));
 		int returnVal = fc.showSaveDialog(fc);
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			String scriptFilePath = fc.getSelectedFile().getCanonicalPath();
-			System.out.println(scriptFilePath);
-		} else {
-			// Cancel export
-		}
-	}
-
-	public static void importSessionAction() throws Exception {
-		JFileChooser fc = new JFileChooser();
-		fc.setFileFilter(new FileNameExtensionFilter("Shell Script Files", "sh", "bash"));
-		int returnVal = fc.showOpenDialog(fc);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			String scriptFilePath = fc.getSelectedFile().getCanonicalPath();
 			System.out.println(scriptFilePath);
