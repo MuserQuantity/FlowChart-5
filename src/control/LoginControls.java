@@ -7,6 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Session;
+import xml.Converter;
 import xml.Persist;
 
 public class LoginControls {
@@ -17,7 +18,10 @@ public class LoginControls {
 
 	}
 
-	public static void enterFlowManager() {
+	public static void enterFlowManager(String ssoid) {
+		Session.ssoID = ssoid;
+		Session.root = Converter.sessionToTreeNode(Session.session);
+
 		if (flowManagerWindow == null)
 			flowManagerWindow = new FlowManager();
 		else if (!flowManagerWindow.frame.isVisible()) {
@@ -31,6 +35,7 @@ public class LoginControls {
 	}
 
 	public static void saveAndExitButtonAction() {
+		Session.root = Converter.sessionToTreeNode(Session.session);
 		Persist.sessionXMLSave(Session.session);
 		System.exit(0);
 	}

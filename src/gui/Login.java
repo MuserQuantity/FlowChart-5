@@ -109,6 +109,9 @@ public class Login {
 					usernameField.getText().equals("Enter SSOID here to enter Flow Manager");
 				} else
 					flowManagerButton.setEnabled(true);
+
+				if (e.getKeyCode() == KeyEvent.VK_ENTER)
+					flowManagerButton.doClick();
 			}
 		});
 		usernameField.addFocusListener(new FocusListener() {
@@ -122,6 +125,14 @@ public class Login {
 			public void focusLost(FocusEvent arg0) {
 				if (usernameField.getText().isEmpty())
 					usernameField.setText("Enter SSOID here to enter Flow Manager");
+			}
+		});
+		usernameField.addKeyListener(new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				if ((!Character.isAlphabetic(c)) && (!Character.isDigit(c)) && (c != KeyEvent.VK_BACK_SPACE)) {
+					e.consume(); // ignore event
+				}
 			}
 		});
 
@@ -150,7 +161,7 @@ public class Login {
 		flowManagerButton = new JButton("Flow Manager");
 		flowManagerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginControls.enterFlowManager();
+				LoginControls.enterFlowManager(usernameField.getText());
 			}
 		});
 		if (!isOldSession)

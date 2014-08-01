@@ -48,6 +48,7 @@ public class Persist {
 		return doc;
 	}
 
+	// Only happens when loading save
 	public static boolean startupXMLRoutine(File xmlSession) {
 		try {
 			// TODO check XSD validate XML file schema. make sure well-formed

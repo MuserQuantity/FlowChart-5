@@ -48,7 +48,7 @@ public class FlowManager {
 
 	JSplitPane splitPane;
 	DefaultTreeModel flowTreeModel;
-	JTree flowTree;
+	static JTree flowTree;
 	JScrollPane treeScrollPane;
 
 	JPanel flowEditor; // Displayed when ssoid "root" is focused
@@ -208,7 +208,9 @@ public class FlowManager {
 
 							flowTextField.setText("");
 							treeScrollPane.getVerticalScrollBar().setValue(treeScrollPane.getVerticalScrollBar().getMaximum());
+							expandRowsInJTree();
 						}
+
 					}
 				}
 			}
@@ -276,6 +278,7 @@ public class FlowManager {
 									serverListModel.size() - 1);
 
 							serverTextField.setText("");
+							expandRowsInJTree();
 						}
 					}
 				}
@@ -341,6 +344,7 @@ public class FlowManager {
 									csListModel.size() - 1);
 
 							csTextField.setText("");
+							expandRowsInJTree();
 						}
 					}
 				}
@@ -399,10 +403,8 @@ public class FlowManager {
 			}
 		});
 		treeScrollPane.setBorder(BorderFactory.createTitledBorder("Floverview"));
-		// Expand all rows in tree
-		for (int i = 0; i < flowTree.getRowCount(); i++)
-			flowTree.expandRow(i);
 		flowTree.setCellRenderer(new ScriptDisabledRedTreeRenderer());
+		expandRowsInJTree();
 
 		// Split Pane setup
 		this.dividerLocation = 500;
@@ -459,6 +461,11 @@ public class FlowManager {
 		splitPane.setDividerLocation(dividerLocation);
 		contentPane.revalidate();
 		contentPane.repaint();
+	}
+
+	static void expandRowsInJTree() {
+		for (int i = 0; i < flowTree.getRowCount(); i++)
+			flowTree.expandRow(i);
 	}
 
 	@SuppressWarnings("serial")
