@@ -26,7 +26,6 @@ public class Persist {
 
 		}
 		Element root = new Element(Session.ssoID);
-		// root.addAttribute(new Attribute("sessionPath", Session.sessionPath));
 		for (Flow f : session) {
 			Element flow = new Element("flow");
 			flow.addAttribute(new Attribute("Flow_Label", f.getLabel()));

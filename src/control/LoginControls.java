@@ -15,6 +15,10 @@ public class LoginControls {
 
 	public static FlowManager flowManagerWindow;
 
+	public static void runButton() {
+
+	}
+
 	public static void enterFlowManager() {
 		if (flowManagerWindow == null)
 			flowManagerWindow = new FlowManager();
@@ -52,10 +56,14 @@ public class LoginControls {
 	}
 
 	public static void importSessionAction() throws Exception {
-
-	}
-
-	public static void runButton() {
-
+		JFileChooser fc = new JFileChooser();
+		fc.setFileFilter(new FileNameExtensionFilter("Shell Script Files", "sh", "bash"));
+		int returnVal = fc.showOpenDialog(fc);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			String scriptFilePath = fc.getSelectedFile().getCanonicalPath();
+			System.out.println(scriptFilePath);
+		} else {
+			// Cancel export
+		}
 	}
 }
