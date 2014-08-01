@@ -180,6 +180,8 @@ public class Login {
 		exitButton = new JButton("Save and Exit");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Maybe safe capture any inputted SSOID?
+				Session.ssoID = usernameField.getText();
 				LoginControls.saveAndExitButtonAction();
 			}
 		});

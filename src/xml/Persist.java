@@ -3,6 +3,7 @@ package xml;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import log.Alerts;
@@ -26,25 +27,28 @@ public class Persist {
 		if (Session.ssoID == null) {
 			Session.ssoID = "SSOID";
 		}
-		Element root = new Element(Session.ssoID);
-		for (Flow f : session) {
-			Element flow = new Element("flow");
-			flow.addAttribute(new Attribute("Flow_Label", f.getLabel()));
-			flow.addAttribute(new Attribute("isEnabled", Boolean.toString(f.isEnabled())));
-			for (Server s : f.getServerList()) {
-				Element server = new Element("server");
-				server.addAttribute(new Attribute("Server_Name", s.getServerName()));
-				for (CmdScript cs : s.getCmdScriptList()) {
-					Element cmdScript = new Element("csData");
-					cmdScript.addAttribute(new Attribute("isCmd", cs.isCmd().toString()));
-					cmdScript.addAttribute(new Attribute("CS_Data", cs.getData()));
-					server.appendChild(cmdScript);
+		Document doc = null;
+		if (!Session.ssoID.contains(" ")) {
+			Element root = new Element(Session.ssoID);
+			for (Flow f : session) {
+				Element flow = new Element("flow");
+				flow.addAttribute(new Attribute("Flow_Label", f.getLabel()));
+				flow.addAttribute(new Attribute("isEnabled", Boolean.toString(f.isEnabled())));
+				for (Server s : f.getServerList()) {
+					Element server = new Element("server");
+					server.addAttribute(new Attribute("Server_Name", s.getServerName()));
+					for (CmdScript cs : s.getCmdScriptList()) {
+						Element cmdScript = new Element("csData");
+						cmdScript.addAttribute(new Attribute("isCmd", cs.isCmd().toString()));
+						cmdScript.addAttribute(new Attribute("CS_Data", cs.getData()));
+						server.appendChild(cmdScript);
+					}
+					flow.appendChild(server);
 				}
-				flow.appendChild(server);
+				root.appendChild(flow);
 			}
-			root.appendChild(flow);
+			doc = new Document(root);
 		}
-		Document doc = new Document(root);
 		return doc;
 	}
 
@@ -151,10 +155,12 @@ public class Persist {
 		return session;
 	}
 
+	// TODO clean this up
 	public static void sessionXMLSave(LinkedList<Flow> session) {
+		File xmlFile = new File(savePath);
+		FileOutputStream fos = null;
 		try {
-			File xmlFile = new File(savePath);
-			FileOutputStream fos = new FileOutputStream(xmlFile);
+			fos = new FileOutputStream(xmlFile);
 			Serializer s = new Serializer(fos, "ISO-8859-1");
 			s.setIndent(4);
 			s.setMaxLength(500);
@@ -163,7 +169,14 @@ public class Persist {
 
 		} catch (Exception e) {
 			// TODO logger
-			e.printStackTrace();
+			// sessionToXMLDoc is null because user quit without any SOOID input
+			try {
+				fos.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println(xmlFile.delete());
 		}
 	}
 

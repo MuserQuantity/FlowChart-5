@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Session;
@@ -33,7 +34,28 @@ public class BootupControls {
 
 	public static void newSessionButtonAction(JFrame bootup) throws Exception {
 		// Prompt user path to save new session XML file
-		JFileChooser fc = new JFileChooser();
+		JFileChooser fc = new JFileChooser() {
+			@Override
+			public void approveSelection() {
+				File f = getSelectedFile();
+				if (f.exists() && getDialogType() == SAVE_DIALOG) {
+					int result = JOptionPane.showConfirmDialog(this, "The file exists, overwrite?", "Existing file", JOptionPane.YES_NO_CANCEL_OPTION);
+					switch (result) {
+					case JOptionPane.YES_OPTION:
+						super.approveSelection();
+						return;
+					case JOptionPane.NO_OPTION:
+						return;
+					case JOptionPane.CLOSED_OPTION:
+						return;
+					case JOptionPane.CANCEL_OPTION:
+						cancelSelection();
+						return;
+					}
+				}
+				super.approveSelection();
+			}
+		};
 		fc.setFileFilter(new FileNameExtensionFilter("Session XML File", "xml"));
 		fc.setDialogTitle("Save new session XML file");
 		int returnVal = fc.showSaveDialog(fc);
