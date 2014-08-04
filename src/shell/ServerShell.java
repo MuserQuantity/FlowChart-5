@@ -75,7 +75,7 @@ public class ServerShell {
 
 	}
 
-	boolean setupConnection() throws JSchException {
+	void setupConnection() throws JSchException {
 		jsch = new JSch();
 
 		session = jsch.getSession(username, server.getServerName());
@@ -88,7 +88,5 @@ public class ServerShell {
 		baos = new ByteArrayOutputStream();
 		ps = new PrintStream(baos);
 		channel.setOutputStream(ps);
-
-		return true;
 	}
 }
