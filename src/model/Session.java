@@ -37,7 +37,7 @@ public class Session {
 	public static void querySession(String pw) {
 		// TODO multithreaded implementation
 		for (Flow f : session) {
-			Access a = new Access(f, pw);
+			Access a = new Access(f, ssoID, pw);
 			a.startConnectionRoutine();
 		}
 	}
