@@ -7,6 +7,14 @@ public class CmdScript {
 	boolean enabled;
 	String response;
 
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
+		this.response = response;
+	}
+
 	public CmdScript(boolean isCommand, String d) {
 		this.isCmd = isCommand;
 		this.data = d;

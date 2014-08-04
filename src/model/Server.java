@@ -14,6 +14,14 @@ public class Server {
 		this.enabled = true;
 	}
 
+	public String collateResponses() {
+		StringBuilder sb = new StringBuilder();
+		for (CmdScript cs : cmdScriptList) {
+			sb.append(cs.getResponse() + '\n');
+		}
+		return sb.toString();
+	}
+
 	@Override
 	public String toString() {
 		return serverName;

@@ -14,6 +14,14 @@ public class Flow {
 		this.enabled = true;
 	}
 
+	public String collateResponses() {
+		StringBuilder sb = new StringBuilder();
+		for (Server s : serverList) {
+			sb.append(s.collateResponses() + '\n' + '\n');
+		}
+		return sb.toString();
+	}
+
 	@Override
 	public String toString() {
 		return label;
