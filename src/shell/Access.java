@@ -1,8 +1,6 @@
 package shell;
 
 import model.Flow;
-import model.Session;
-import responseModel.FlowResponse;
 
 public class Access implements Runnable {
 
@@ -19,12 +17,6 @@ public class Access implements Runnable {
 	}
 
 	public void startConnectionRoutine() {
-		Session.responses.responseCollection.add(getFlowResponse());
 	}
 
-	public FlowResponse getFlowResponse() {
-		FlowResponse fr = new FlowResponse(flow.getLabel());
-
-		return fr;
-	}
 }

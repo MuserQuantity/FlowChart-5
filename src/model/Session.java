@@ -12,7 +12,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import responseModel.Response;
 import shell.Access;
 
 public class Session {
@@ -22,7 +21,6 @@ public class Session {
 	public static DefaultListModel<Flow> flowListModel = new DefaultListModel<Flow>();
 	public static DefaultMutableTreeNode root;
 	public static Login loginWindow;
-	public static Response responses = new Response();
 
 	public static void main(String[] args) {
 		try {
