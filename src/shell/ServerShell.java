@@ -1,92 +1,127 @@
 package shell;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.InputStreamReader;
 
 import model.CmdScript;
 import model.Server;
-import xml.Converter;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
+import ch.ethz.ssh2.Connection;
+import ch.ethz.ssh2.InteractiveCallback;
+import ch.ethz.ssh2.Session;
+import ch.ethz.ssh2.StreamGobbler;
 
 public class ServerShell {
 
-	Server server;
+	private Server server;
 	private String username;
-	private String password;
+	private static String password;
 
-	JSch jsch;
-	Session session;
-	Channel channel;
-
-	ByteArrayOutputStream baos;
-	PrintStream ps;
-
-	File unixScript;
-	FileInputStream fin;
-	InputStream in;
+	private Connection connection;
 
 	public ServerShell(Server s, String u, String p) {
 		this.server = s;
 		this.username = u;
-		this.password = p;
+		password = p;
 	}
 
-	public void query() throws IOException, JSchException {
+	public void query() throws Exception {
 
-		// Setup connection for this Server
-		setupConnection();
+		if (connect()) {
 
-		// For each CmdScript in this Server, retrieve responses
-		for (CmdScript cs : server.getCmdScriptList()) {
+			// For each CmdScript in this Server
+			for (CmdScript cs : server.getCmdScriptList()) {
+				// Only run connection on it if CmdScript is enabled
+				if (cs.isEnabled()) {
+					// If CMD
+					if (cs.isCmd()) {
+						cs.setResponse(executeCommand(cs.getData()));
+					} else { // If Script file
 
-			// Only run connection on it if it's enabled
-			if (cs.isEnabled()) {
-				// Create unixScript to be read by server
-				if (cs.isCmd()) {
-					unixScript = Converter.cmdToShellScript(cs.getData());
-				} else {
-					unixScript = new File(cs.getData());
+					}
 				}
-
-				// Prepare cmd/script for channel
-				fin = new FileInputStream(unixScript);
-				byte[] fileContent = new byte[(int) unixScript.length()];
-				fin.read(fileContent);
-				in = new ByteArrayInputStream(fileContent);
-
-				// Issue to channel
-				channel.setInputStream(in);
-				channel.connect();
-
-				// Capture response
-
 			}
-
+			logout();
+		} else {
+			// TODO logger
 		}
 
 	}
 
-	void setupConnection() throws JSchException {
-		jsch = new JSch();
+	public String executeCommand(String command) throws Exception {
+		// Open a session
+		Session session = connection.openSession();
 
-		session = jsch.getSession(username, server.getServerName());
-		session.setPassword(password);
-		session.setConfig("StrictHostKeyChecking", "no");
-		session.connect();
+		// Execute the command
+		session.execCommand(command);
 
-		channel = session.openChannel("shell");
+		// Read the results
+		StringBuilder sb = new StringBuilder();
+		InputStream stdout = new StreamGobbler(session.getStdout());
+		BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
+		String line = br.readLine();
+		while (line != null) {
+			sb.append(line + "\n");
+			line = br.readLine();
+		}
 
-		baos = new ByteArrayOutputStream();
-		ps = new PrintStream(baos);
-		channel.setOutputStream(ps);
+		// TODO logger - DEBUG: dump the exit code
+		// System.out.println("ExitCode: " + session.getExitStatus());
+
+		// Close the session
+		session.close();
+		br.close();
+
+		// Return the results
+		return sb.toString();
+	}
+
+	public boolean connect() throws IOException {
+		// Connect to the serverhostname
+		connection = new Connection(server.getServerName());
+		connection.connect();
+
+		// Using keyboard-interactive authentication method
+		InteractiveLogic il = new InteractiveLogic();
+		boolean result = connection.authenticateWithKeyboardInteractive(username, il);
+
+		return result;
+	}
+
+	public void logout() {
+		connection.close();
+	}
+
+	// Keyboard interactive logic
+	static class InteractiveLogic implements InteractiveCallback {
+		int promptCount = 0;
+
+		public InteractiveLogic() {
+		}
+
+		/*
+		 * the callback may be invoked several times, depending on how many
+		 * questions-sets the server sends
+		 */
+		public String[] replyToChallenge(String name, String instruction, int numPrompts, String[] prompt, boolean[] echo) throws IOException {
+			String[] result = new String[numPrompts];
+
+			for (int i = 0; i < numPrompts; i++) {
+				result[i] = password;
+				promptCount++;
+			}
+
+			return result;
+		}
+
+		/*
+		 * We maintain a prompt counter - this enables the detection of
+		 * situations where the ssh server is signaling "authentication failed"
+		 * even though it did not send a single prompt.
+		 */
+		public int getPromptCount() {
+			return promptCount;
+		}
 	}
 }

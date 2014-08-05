@@ -34,12 +34,33 @@ public class Session {
 
 	}
 
+	public static String printFlows() {
+		StringBuilder sb = new StringBuilder();
+		for (Flow f : session) {
+			sb.append(f.getLabel() + '\n');
+			for (Server s : f.getServerList()) {
+				sb.append("   " + s.getServerName() + '\n');
+				for (CmdScript cs : s.getCmdScriptList()) {
+					sb.append("      " + cs.getData() + ": ");
+					// if (cs.getResponse().equals("")) {
+					// sb.append("no response\n");
+					// } else {
+					// sb.append("response!\n");
+					// }
+					sb.append(cs.getResponse() + '\n');
+				}
+			}
+		}
+		return sb.toString();
+	}
+
 	public static void querySession(String pw) {
 		// TODO multithreaded implementation
 		for (Flow f : session) {
 			Access a = new Access(f, ssoID, pw);
 			a.startConnectionRoutine();
 		}
+		System.out.println(printFlows());
 	}
 
 	// Kick off Login window

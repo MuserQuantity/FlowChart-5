@@ -94,6 +94,15 @@ public class Login {
 				runButton.doClick();
 			}
 		});
+		passwordField.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				if (!new String(passwordField.getPassword()).isEmpty()) {
+					runButton.setEnabled(true);
+				} else {
+					runButton.setEnabled(false);
+				}
+			}
+		});
 
 		// Username, SSOID
 		usernameField = new JTextField();
@@ -174,7 +183,7 @@ public class Login {
 				LoginControls.runButton(String.valueOf(passwordField.getPassword()));
 			}
 		});
-		toggleRunButton();
+		runButton.setEnabled(false);
 
 		// Save and exit button
 		exitButton = new JButton("Save and Exit");

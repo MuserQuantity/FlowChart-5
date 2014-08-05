@@ -19,6 +19,7 @@ public class CmdScript {
 		this.isCmd = isCommand;
 		this.data = d;
 		this.enabled = true;
+		this.response = "";
 	}
 
 	@Override

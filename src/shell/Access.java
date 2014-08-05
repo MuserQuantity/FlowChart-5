@@ -1,11 +1,7 @@
 package shell;
 
-import java.io.IOException;
-
 import model.Flow;
 import model.Server;
-
-import com.jcraft.jsch.JSchException;
 
 public class Access {
 
@@ -27,11 +23,8 @@ public class Access {
 
 				new ServerShell(s, username, password).query();
 
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-				// TODO logger
-			} catch (JSchException je) {
-				je.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
 				// TODO logger
 			}
 		}
