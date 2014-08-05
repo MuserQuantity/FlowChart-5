@@ -240,6 +240,11 @@ public class Login {
 				// Disable if there are no active Flows
 				runButton.setEnabled(false);
 		}
+		if (!new String(passwordField.getPassword()).isEmpty()) {
+			runButton.setEnabled(true);
+		} else {
+			runButton.setEnabled(false);
+		}
 	}
 
 	public static void toggleFlowManagerButton() {
