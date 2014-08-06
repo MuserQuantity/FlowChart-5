@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import parser.RawResponse;
 import shell.Access;
 
 public class Session {
@@ -22,6 +23,19 @@ public class Session {
 	public static DefaultMutableTreeNode root;
 	public static Login loginWindow;
 
+	// Open source abstraction layer
+	public static void doAbstract() {
+		/*
+		 * At this point, session is finished compiling results. Open source
+		 * abstraction can be done with session as seen fit.
+		 */
+
+		new RawResponse(session);
+	}
+
+	/*
+	 * Sensitive code starting here
+	 */
 	public static void main(String[] args) {
 		try {
 			// Request session XML load/new on boot
@@ -40,6 +54,7 @@ public class Session {
 			Access a = new Access(f, ssoID, pw);
 			a.startConnectionRoutine();
 		}
+		doAbstract();
 	}
 
 	// Kick off Login window

@@ -18,7 +18,7 @@ public class Access {
 		password = pw;
 	}
 
-	public void startConnectionRoutine() {
+	public boolean startConnectionRoutine() {
 
 		LinkedList<Server> accessDenyList = new LinkedList<Server>();
 
@@ -53,7 +53,9 @@ public class Access {
 				if (i % 7 == 0)
 					sb.append("\n");
 			}
-			Alerts.infoBox(sb.toString(), "Username/Password Failure in Flow: " + flow.getLabel());
+			Alerts.infoBox(sb.toString() + "\nUNIX box passwords may have been scheduled for reset.", "Username/Password Failure in Flow: " + flow.getLabel());
+			return false;
 		}
+		return true;
 	}
 }

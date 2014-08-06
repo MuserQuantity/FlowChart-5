@@ -418,7 +418,7 @@ public class FlowManager {
 		expandRowsInJTree();
 
 		// Split Pane setup
-		this.dividerLocation = 500;
+		dividerLocation = 500;
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		splitPane.setDividerLocation(dividerLocation);
 		splitPane.setEnabled(true);
