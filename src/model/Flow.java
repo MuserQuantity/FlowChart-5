@@ -4,9 +4,9 @@ import java.util.LinkedList;
 
 public class Flow {
 
-	String label;
-	LinkedList<Server> serverList;
-	boolean enabled;
+	private String label;
+	private LinkedList<Server> serverList;
+	private boolean enabled;
 
 	public Flow(String l) {
 		this.label = l;

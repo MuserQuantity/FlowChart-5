@@ -1,5 +1,8 @@
 package shell;
 
+import java.util.LinkedList;
+
+import log.Alerts;
 import model.Flow;
 import model.Server;
 
@@ -17,11 +20,20 @@ public class Access {
 
 	public void startConnectionRoutine() {
 
+		LinkedList<Server> accessDenyList = new LinkedList<Server>();
+
 		// For each Server in this Flow, start a new ServerShell query
 		for (Server s : flow.getServerList()) {
 			try {
 
-				new ServerShell(s, username, password).query();
+				if (new ServerShell(s, username, password).query()) {
+					// TODO logger
+					System.out.println("Access granted for Server " + s.getServerName() + " in Flow: " + flow.getLabel());
+				} else {
+					// TODO logger
+					System.err.println("Access denied for Server " + s.getServerName() + " in Flow: " + flow.getLabel());
+					accessDenyList.add(s);
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -29,6 +41,19 @@ public class Access {
 			}
 		}
 
+		if (!accessDenyList.isEmpty()) {
+			// Let user know of bad auth Server rejections
+			StringBuilder sb = new StringBuilder();
+			sb.append("Credentials failed to authenticate for server hostnames: ");
+			for (int i = 0; i < accessDenyList.size(); i++) {
+				if (i == accessDenyList.size() - 1)
+					sb.append(accessDenyList.get(i).getServerName());
+				else
+					sb.append(accessDenyList.get(i).getServerName() + ", ");
+				if (i % 7 == 0)
+					sb.append("\n");
+			}
+			Alerts.infoBox(sb.toString(), "Username/Password Failure in Flow: " + flow.getLabel());
+		}
 	}
-
 }

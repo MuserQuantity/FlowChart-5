@@ -2,10 +2,10 @@ package model;
 
 public class CmdScript {
 
-	Boolean isCmd;
-	String data;
-	boolean enabled;
-	String response;
+	private Boolean isCmd;
+	private String data;
+	private boolean enabled;
+	private String response;
 
 	public String getResponse() {
 		return response;

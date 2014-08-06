@@ -34,33 +34,12 @@ public class Session {
 
 	}
 
-	public static String printFlows() {
-		StringBuilder sb = new StringBuilder();
-		for (Flow f : session) {
-			sb.append(f.getLabel() + '\n');
-			for (Server s : f.getServerList()) {
-				sb.append("   " + s.getServerName() + '\n');
-				for (CmdScript cs : s.getCmdScriptList()) {
-					sb.append("      " + cs.getData() + ": ");
-					// if (cs.getResponse().equals("")) {
-					// sb.append("no response\n");
-					// } else {
-					// sb.append("response!\n");
-					// }
-					sb.append(cs.getResponse() + '\n');
-				}
-			}
-		}
-		return sb.toString();
-	}
-
 	public static void querySession(String pw) {
 		// TODO multithreaded implementation
 		for (Flow f : session) {
 			Access a = new Access(f, ssoID, pw);
 			a.startConnectionRoutine();
 		}
-		System.out.println(printFlows());
 	}
 
 	// Kick off Login window
@@ -95,7 +74,7 @@ public class Session {
 		for (Flow f : session) {
 			if (f.getLabel().equals(path.getPathComponent(1).toString())) {
 				for (Server s : f.getServerList()) {
-					if (s.getServerName().equalsIgnoreCase(newServer.serverName)) {
+					if (s.getServerName().equalsIgnoreCase(newServer.getServerName())) {
 						return false;
 					}
 				}
@@ -225,81 +204,23 @@ public class Session {
 		return false;
 	}
 
-	public static void popTestSession() {
-		Flow f1 = new Flow("test flow 1");
-		Server s11 = new Server("server11");
-		Server s12 = new Server("server12");
-		Server s13 = new Server("server13");
-		CmdScript cs111 = new CmdScript(true, "ls");
-		CmdScript cs121 = new CmdScript(false, "/some/path/of/script1.sh");
-		CmdScript cs122 = new CmdScript(true, "ps -ef");
-		CmdScript cs123 = new CmdScript(false, "/some/path/of/script2.sh");
-		CmdScript cs131 = new CmdScript(true, "pwd");
-		CmdScript cs132 = new CmdScript(false, "/some/path/of/script3.sh");
-		s11.cmdScriptList.add(cs111);
-		s12.cmdScriptList.add(cs121);
-		s12.cmdScriptList.add(cs122);
-		s12.cmdScriptList.add(cs123);
-		s13.cmdScriptList.add(cs131);
-		s13.cmdScriptList.add(cs132);
-		f1.serverList.add(s11);
-		f1.serverList.add(s12);
-		f1.serverList.add(s13);
-
-		Flow f2 = new Flow("test flow 2");
-		Server s21 = new Server("server21");
-		Server s22 = new Server("server22");
-		Server s23 = new Server("server23");
-		CmdScript cs211 = new CmdScript(true, "ls -al");
-		CmdScript cs221 = new CmdScript(false, "/some/path/of/script4.sh");
-		CmdScript cs222 = new CmdScript(true, "bash");
-		CmdScript cs223 = new CmdScript(false, "/some/path/of/script5.sh");
-		CmdScript cs231 = new CmdScript(true, "ps");
-		CmdScript cs232 = new CmdScript(false, "/some/path/of/script6.sh");
-		s21.cmdScriptList.add(cs211);
-		s22.cmdScriptList.add(cs221);
-		s22.cmdScriptList.add(cs222);
-		s22.cmdScriptList.add(cs223);
-		s23.cmdScriptList.add(cs231);
-		s23.cmdScriptList.add(cs232);
-		f2.serverList.add(s21);
-		f2.serverList.add(s22);
-		f2.serverList.add(s23);
-
-		Flow f3 = new Flow("test flow 3");
-		Server s31 = new Server("server31");
-		Server s32 = new Server("server32");
-		Server s33 = new Server("server33");
-		CmdScript cs311 = new CmdScript(true, "cd -");
-		CmdScript cs321 = new CmdScript(false, "/some/path/of/script7.sh");
-		CmdScript cs322 = new CmdScript(true, "cd");
-		CmdScript cs323 = new CmdScript(false, "/some/path/of/script8.sh");
-		CmdScript cs331 = new CmdScript(true, "mkdir temp");
-		CmdScript cs332 = new CmdScript(false, "/some/path/of/script9.sh");
-		s31.cmdScriptList.add(cs311);
-		s32.cmdScriptList.add(cs321);
-		s32.cmdScriptList.add(cs322);
-		s32.cmdScriptList.add(cs323);
-		s33.cmdScriptList.add(cs331);
-		s33.cmdScriptList.add(cs332);
-		f3.serverList.add(s31);
-		f3.serverList.add(s32);
-		f3.serverList.add(s33);
-
-		session.add(f1);
-		session.add(f2);
-		session.add(f3);
-	}
-
-	public static void printSessionTree() {
+	public static String getFlowString() {
+		StringBuilder sb = new StringBuilder();
 		for (Flow f : session) {
-			System.out.println(f.label);
-			for (Server s : f.serverList) {
-				System.out.println("  " + s.serverName);
-				for (CmdScript cs : s.cmdScriptList) {
-					System.out.println("      " + cs.data);
+			sb.append(f.getLabel() + '\n');
+			for (Server s : f.getServerList()) {
+				sb.append("   " + s.getServerName() + '\n');
+				for (CmdScript cs : s.getCmdScriptList()) {
+					sb.append("      " + cs.getData() + ": ");
+					// if (cs.getResponse().equals("")) {
+					// sb.append("no response\n");
+					// } else {
+					// sb.append("response!\n");
+					// }
+					// sb.append(cs.getResponse() + '\n');
 				}
 			}
 		}
+		return sb.toString();
 	}
 }

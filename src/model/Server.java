@@ -4,14 +4,16 @@ import java.util.LinkedList;
 
 public class Server {
 
-	String serverName;
-	LinkedList<CmdScript> cmdScriptList;
-	boolean enabled;
+	private String serverName;
+	private LinkedList<CmdScript> cmdScriptList;
+	private boolean enabled;
+	private boolean authenticated;
 
 	public Server(String sn) {
 		this.serverName = sn;
 		this.cmdScriptList = new LinkedList<CmdScript>();
 		this.enabled = true;
+		this.authenticated = true;
 	}
 
 	public String collateResponses() {
@@ -25,6 +27,14 @@ public class Server {
 	@Override
 	public String toString() {
 		return serverName;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
 	}
 
 	public String getServerName() {

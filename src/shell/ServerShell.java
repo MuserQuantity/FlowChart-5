@@ -26,7 +26,7 @@ public class ServerShell {
 		password = p;
 	}
 
-	public void query() throws Exception {
+	public boolean query() throws Exception {
 
 		if (connect()) {
 
@@ -43,10 +43,9 @@ public class ServerShell {
 				}
 			}
 			logout();
-		} else {
-			// TODO logger
+			return true;
 		}
-
+		return false;
 	}
 
 	public String executeCommand(String command) throws Exception {
@@ -56,14 +55,25 @@ public class ServerShell {
 		// Execute the command
 		session.execCommand(command);
 
-		// Read the results
+		// Initialize output and error readers
 		StringBuilder sb = new StringBuilder();
 		InputStream stdout = new StreamGobbler(session.getStdout());
 		BufferedReader br = new BufferedReader(new InputStreamReader(stdout));
+		InputStream stderr = new StreamGobbler(session.getStderr());
+		BufferedReader brErr = new BufferedReader(new InputStreamReader(stderr));
+
+		// Read stdOut
 		String line = br.readLine();
 		while (line != null) {
 			sb.append(line + "\n");
 			line = br.readLine();
+		}
+
+		// Read error out
+		String errLine = brErr.readLine();
+		while (errLine != null) {
+			// TODO logger
+			errLine = brErr.readLine();
 		}
 
 		// TODO logger - DEBUG: dump the exit code
@@ -72,6 +82,7 @@ public class ServerShell {
 		// Close the session
 		session.close();
 		br.close();
+		brErr.close();
 
 		// Return the results
 		return sb.toString();
