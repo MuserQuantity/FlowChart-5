@@ -172,7 +172,7 @@ public class FlowManager {
 		saveCmdChangesButton = new JButton("Saved");
 		saveCmdChangesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				FlowManagerControls.saveCmdChangesAction();
+				FlowManagerControls.saveCmdChangesAction(csViewer.getText().trim(), flowTreeModel, flowTree.getSelectionPath());
 				saveCmdChangesButton.setEnabled(false);
 				saveCmdChangesButton.setText("Saved");
 			}

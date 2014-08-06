@@ -126,6 +126,24 @@ public class Session {
 		return false;
 	}
 
+	public static boolean editCommand(TreePath path, String newCmd) {
+		for (Flow f : session) {
+			if (f.getLabel().equals(path.getPathComponent(1).toString())) {
+				for (Server s : f.getServerList()) {
+					if (s.getServerName().equalsIgnoreCase(path.getPathComponent(2).toString())) {
+						for (CmdScript cs : s.getCmdScriptList()) {
+							if (cs.getData().equals(((CmdScript) ((DefaultMutableTreeNode) path.getPathComponent(3)).getUserObject()).getData())) {
+								cs.setData(newCmd);
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public static DefaultListModel<Server> getDLMofServers(TreePath path) throws Exception {
 
 		if (session.isEmpty())

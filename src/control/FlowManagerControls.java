@@ -27,42 +27,57 @@ public class FlowManagerControls {
 		Login.frame.repaint();
 	}
 
-	public static void saveCmdChangesAction() {
-
+	public static void saveCmdChangesAction(String newCmd, DefaultTreeModel flowTreeModel, TreePath path) {
+		// Memory alter
+		if (!Session.editCommand(path, newCmd)) {
+			// TODO logger
+		} else {
+			// Left pane tree alter
+			CmdScript newCS = (CmdScript) ((DefaultMutableTreeNode) path.getPathComponent(3)).getUserObject();
+			newCS.setData(newCmd);
+			flowTreeModel.valueForPathChanged(path, newCS);
+		}
 	}
 
 	public static void deleteFlowDoubleClick(int index, DefaultTreeModel flowTreeModel) {
-		// Left pane tree remove
-		flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(Session.root, index));
 		// Memory remove
 		if (!Session.removeFlow((Flow) Session.flowListModel.get(index))) {
 			// TODO logger
+		} else {
+			// Left pane tree remove
+			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(Session.root, index));
+
+			// Right pane list remove
+			Session.flowListModel.removeElementAt(index);
 		}
-		// Right pane list remove
-		Session.flowListModel.removeElementAt(index);
+
 	}
 
 	public static void deleteServerDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<Server> serverListModel, TreePath path) {
-		// Left pane tree remove
-		flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
 		// Memory remove
 		if (!Session.removeServer(path, (Server) serverListModel.get(index))) {
 			// TODO logger
-			System.out.println("problem");
+		} else {
+			// Left pane tree remove
+			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
+
+			// Right pane list remove
+			serverListModel.remove(index);
 		}
-		// Right pane list remove
-		serverListModel.remove(index);
+
 	}
 
 	public static void deleteCmdScriptDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<CmdScript> csListModel, TreePath path) {
-		// Left pane tree remove
-		flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
 		// Memory remove
 		if (!Session.removeCS(path, (CmdScript) csListModel.get(index))) {
 			// TODO logger
-			System.out.println("problem");
+		} else {
+			// Left pane tree remove
+			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
+
+			// Right pane list remove
+			csListModel.remove(index);
 		}
-		// Right pane list remove
-		csListModel.remove(index);
+
 	}
 }
