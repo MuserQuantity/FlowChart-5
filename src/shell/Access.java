@@ -25,16 +25,16 @@ public class Access {
 		// For each Server in this Flow, start a new ServerShell query
 		for (Server s : flow.getServerList()) {
 			try {
-
 				if (new ServerShell(s, username, password).query()) {
 					// TODO logger
 					System.out.println("Access granted for Server " + s.getServerName() + " in Flow: " + flow.getLabel());
+					s.setAuthenticated(true);
 				} else {
 					// TODO logger
 					System.err.println("Access denied for Server " + s.getServerName() + " in Flow: " + flow.getLabel());
+					s.setAuthenticated(false);
 					accessDenyList.add(s);
 				}
-
 			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO logger

@@ -59,6 +59,7 @@ public class FlowManager {
 	JPanel cmdScriptViewer; // Displayed when cmdScript is focused
 	JPanel buttonPanel; // Save and exit button panel
 	JPanel specialScriptButtonPanel;
+	JPanel specialViewerButtonPanel;
 
 	// Current working path of flow
 	TreePath path;
@@ -85,9 +86,11 @@ public class FlowManager {
 	JTextArea csViewer;
 
 	// Button Panel elements
+	JButton saveCmdChangesButton;
 	JButton addScriptButton;
 	JButton exitButton;
 	JButton exitButton2;
+	JButton exitButton3;
 
 	/*
 	 * Panel switch toggle values. 0) flow editor 1) server editor 2) cmdScript
@@ -163,6 +166,24 @@ public class FlowManager {
 		specialScriptButtonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
 		specialScriptButtonPanel.add(addScriptButton);
 		specialScriptButtonPanel.add(exitButton2);
+
+		// Button Panel specifically for saving/editing CMDs
+		saveCmdChangesButton = new JButton("Save Changes to CMD");
+		saveCmdChangesButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		exitButton3 = new JButton("Save and Exit Flow Manager");
+		exitButton3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FlowManagerControls.saveExitButtonAction();
+			}
+		});
+		specialViewerButtonPanel = new JPanel();
+		specialViewerButtonPanel.setLayout(new FlowLayout(FlowLayout.TRAILING));
+		specialViewerButtonPanel.add(saveCmdChangesButton);
+		specialViewerButtonPanel.add(exitButton3);
 
 		// Flow Editor
 		flowEditor = new JPanel();
@@ -369,7 +390,6 @@ public class FlowManager {
 		cmdScriptViewer.setLayout(new BorderLayout());
 		csViewer = new JTextArea();
 		csViewerScrollPane = new JScrollPane(csViewer);
-		csViewer.setBorder(BorderFactory.createTitledBorder("Command/Script Content Viewer"));
 		csViewer.setEditable(false);
 		csViewer.setFont(new Font("Consolas", Font.PLAIN, 12));
 		csViewer.setLineWrap(false);
@@ -459,7 +479,15 @@ public class FlowManager {
 			addScriptButton.setEnabled(false);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
-			cmdScriptViewer.add(buttonPanel, BorderLayout.PAGE_END);
+			if (((CmdScript) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()).isCmd()) {
+				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
+				csViewer.setEditable(true);
+				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Command Content Editor"));
+			} else { // TODO something weird going on here
+				cmdScriptViewer.add(buttonPanel, BorderLayout.PAGE_END);
+				csViewer.setEditable(false);
+				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Script Content Viewer"));
+			}
 			csViewer.setText(Session.getCSData(path));
 			csViewer.setCaretPosition(0);
 			splitPane.add(cmdScriptViewer);
