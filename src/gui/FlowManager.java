@@ -202,14 +202,7 @@ public class FlowManager {
 				if (evt.getClickCount() == 2) {
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
-						// Left pane tree remove
-						flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(Session.root, index));
-						// Memory remove
-						if (!Session.removeFlow((Flow) Session.flowListModel.get(index))) {
-							// TODO logger
-						}
-						// Right pane list remove
-						Session.flowListModel.removeElementAt(index);
+						FlowManagerControls.deleteFlowDoubleClick(index, flowTreeModel);
 					}
 				}
 			}
@@ -269,16 +262,7 @@ public class FlowManager {
 				if (evt.getClickCount() == 2) {
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
-						TreePath path = flowTree.getSelectionPath();
-						// Left pane tree remove
-						flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
-						// Memory remove
-						if (!Session.removeServer(path, (Server) serverListModel.get(index))) {
-							// TODO logger
-							System.out.println("problem");
-						}
-						// Right pane list remove
-						serverListModel.remove(index);
+						FlowManagerControls.deleteServerDoubleClick(index, flowTreeModel, serverListModel, flowTree.getSelectionPath());
 					}
 				}
 			}
@@ -336,16 +320,7 @@ public class FlowManager {
 				if (evt.getClickCount() == 2) {
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
-						TreePath path = flowTree.getSelectionPath();
-						// Left pane tree remove
-						flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
-						// Memory remove
-						if (!Session.removeCS(path, (CmdScript) csListModel.get(index))) {
-							// TODO logger
-							System.out.println("problem");
-						}
-						// Right pane list remove
-						csListModel.remove(index);
+						FlowManagerControls.deleteCmdScriptDoubleClick(index, flowTreeModel, csListModel, flowTree.getSelectionPath());
 					}
 				}
 			}
@@ -488,13 +463,14 @@ public class FlowManager {
 			addScriptButton.setEnabled(false);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
+			// Different GUI logic depending on whether item is CMD/Script
 			if (((CmdScript) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()).isCmd()) {
 				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 				csViewer.setEditable(true);
 				saveCmdChangesButton.setEnabled(false);
 				saveCmdChangesButton.setText("Saved");
 				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Command Content Editor"));
-			} else { // TODO something weird going on here
+			} else {
 				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 				saveCmdChangesButton.setEnabled(false);
 				saveCmdChangesButton.setText("Edit not available for scripts");
@@ -511,10 +487,6 @@ public class FlowManager {
 		splitPane.setDividerLocation(dividerLocation);
 		contentPane.revalidate();
 		contentPane.repaint();
-	}
-
-	void toggleCmdChangesButton() {
-		saveCmdChangesButton.setEnabled(true);
 	}
 
 	static void expandRowsInJTree() {
