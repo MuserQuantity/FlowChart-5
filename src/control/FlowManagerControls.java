@@ -17,4 +17,8 @@ public class FlowManagerControls {
 		Login.frame.toFront();
 		Login.frame.repaint();
 	}
+
+	public static void saveCmdChangesAction() {
+
+	}
 }

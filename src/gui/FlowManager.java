@@ -8,6 +8,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -168,10 +169,12 @@ public class FlowManager {
 		specialScriptButtonPanel.add(exitButton2);
 
 		// Button Panel specifically for saving/editing CMDs
-		saveCmdChangesButton = new JButton("Save Changes to CMD");
+		saveCmdChangesButton = new JButton("Saved");
 		saveCmdChangesButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				FlowManagerControls.saveCmdChangesAction();
+				saveCmdChangesButton.setEnabled(false);
+				saveCmdChangesButton.setText("Saved");
 			}
 		});
 		exitButton3 = new JButton("Save and Exit Flow Manager");
@@ -393,6 +396,12 @@ public class FlowManager {
 		csViewer.setEditable(false);
 		csViewer.setFont(new Font("Consolas", Font.PLAIN, 12));
 		csViewer.setLineWrap(false);
+		csViewer.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				saveCmdChangesButton.setEnabled(true);
+				saveCmdChangesButton.setText("Save Changes to CMD");
+			}
+		});
 		cmdScriptViewer.add(csViewerScrollPane, BorderLayout.CENTER);
 
 		// Flow tree setup (left Pane)
@@ -482,9 +491,13 @@ public class FlowManager {
 			if (((CmdScript) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()).isCmd()) {
 				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 				csViewer.setEditable(true);
+				saveCmdChangesButton.setEnabled(false);
+				saveCmdChangesButton.setText("Saved");
 				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Command Content Editor"));
 			} else { // TODO something weird going on here
-				cmdScriptViewer.add(buttonPanel, BorderLayout.PAGE_END);
+				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
+				saveCmdChangesButton.setEnabled(false);
+				saveCmdChangesButton.setText("Edit not available for scripts");
 				csViewer.setEditable(false);
 				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Script Content Viewer"));
 			}
@@ -498,6 +511,10 @@ public class FlowManager {
 		splitPane.setDividerLocation(dividerLocation);
 		contentPane.revalidate();
 		contentPane.repaint();
+	}
+
+	void toggleCmdChangesButton() {
+		saveCmdChangesButton.setEnabled(true);
 	}
 
 	static void expandRowsInJTree() {
