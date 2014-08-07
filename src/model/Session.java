@@ -24,13 +24,14 @@ public class Session {
 	public static Login loginWindow;
 
 	// Open source abstraction layer
-	public static void doAbstract() {
+	public static void doAbstract(boolean isRefresh) {
 		/*
 		 * At this point, session is finished compiling results. Open source
 		 * abstraction can be done with session as seen fit.
 		 */
 
-		new RawResponse(session);
+		if (!isRefresh)
+			new RawResponse(session);
 	}
 
 	/*
@@ -48,7 +49,7 @@ public class Session {
 
 	}
 
-	public static void querySession(String pw) {
+	public static void querySession(String pw, boolean isRefresh) {
 		// TODO multithreaded implementation
 		for (Flow f : session) {
 			if (f.isEnabled()) {
@@ -56,7 +57,7 @@ public class Session {
 				a.startConnectionRoutine();
 			}
 		}
-		doAbstract();
+		doAbstract(isRefresh);
 	}
 
 	// Kick off Login window

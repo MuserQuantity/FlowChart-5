@@ -272,4 +272,8 @@ public class Login {
 			return this;
 		}
 	}
+
+	public static String getPWString() {
+		return new String(passwordField.getPassword());
+	}
 }

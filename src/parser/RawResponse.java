@@ -1,5 +1,7 @@
 package parser;
 
+import gui.Login;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -25,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 import model.Flow;
+import model.Session;
 
 public class RawResponse {
 
@@ -86,7 +89,14 @@ public class RawResponse {
 		refreshButton = new JButton("Refresh");
 		refreshButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				// Requery enabled Flows and refresh flowListModel
+				Session.querySession(Login.getPWString(), true);
+				int prevPos = flowList.getSelectedIndex();
+				flowListModel.clear();
+				for (Flow f : Session.session)
+					flowListModel.addElement(f);
+				flowList.setSelectedIndex(prevPos);
+				updateResponsePane(prevPos);
 			}
 		});
 		buttonPanel.add(refreshButton);
@@ -121,6 +131,7 @@ public class RawResponse {
 
 		for (int i = 0; i < session.size(); i++) {
 			if (session.get(i).isEnabled()) {
+				flowList.setSelectedIndex(i);
 				updateResponsePane(i);
 				break;
 			}

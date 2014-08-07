@@ -20,7 +20,7 @@ public class LoginControls {
 	public static FlowManager flowManagerWindow;
 
 	public static void runButton(String pw) {
-		Session.querySession(pw);
+		Session.querySession(pw, false);
 	}
 
 	public static void enterFlowManager(String ssoid) {
