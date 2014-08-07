@@ -460,6 +460,9 @@ public class FlowManager {
 			csList.setCellRenderer(new ScriptBlueDisabledRedTextRenderer());
 			splitPane.add(cmdScriptEditor);
 			// TODO enable when feature complete
+			/*
+			 * Maybe SFTP file in, execute, and remove?
+			 */
 			addScriptButton.setEnabled(false);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
