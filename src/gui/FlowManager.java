@@ -465,18 +465,17 @@ public class FlowManager {
 			splitPane.remove(2);
 			// Different GUI logic depending on whether item is CMD/Script
 			if (((CmdScript) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject()).isCmd()) {
-				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 				csViewer.setEditable(true);
 				saveCmdChangesButton.setEnabled(false);
 				saveCmdChangesButton.setText("Saved");
 				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Command Content Editor"));
 			} else {
-				cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 				saveCmdChangesButton.setEnabled(false);
 				saveCmdChangesButton.setText("Edit not available for scripts");
 				csViewer.setEditable(false);
 				cmdScriptViewer.setBorder(BorderFactory.createTitledBorder("Script Content Viewer"));
 			}
+			cmdScriptViewer.add(specialViewerButtonPanel, BorderLayout.PAGE_END);
 			csViewer.setText(Session.getCSData(path));
 			csViewer.setCaretPosition(0);
 			splitPane.add(cmdScriptViewer);

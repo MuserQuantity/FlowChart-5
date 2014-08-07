@@ -96,11 +96,7 @@ public class Login {
 		});
 		passwordField.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
-				if (!new String(passwordField.getPassword()).isEmpty()) {
-					runButton.setEnabled(true);
-				} else {
-					runButton.setEnabled(false);
-				}
+				toggleRunButton();
 			}
 		});
 
@@ -221,29 +217,31 @@ public class Login {
 		if (LoginControls.flowManagerWindow != null && LoginControls.flowManagerWindow.frame.isVisible()) {
 			runButton.setEnabled(false);
 		} else if (Session.session.isEmpty()) {
-			// Disable if there are no Flows
+			// Disable if there are no Flows in flowList
 			runButton.setEnabled(false);
 		} else {
+			// Count number of active Flows
 			int activeFlows = 0;
 			for (Flow f : Session.session) {
 				if (f.isEnabled())
 					activeFlows++;
 			}
-			// Enable if there are active Flows
+			// If there are active Flows
 			if (activeFlows > 0) {
 				// And only if those active Flows have "full" paths
-				if (Session.existsFullPath())
-					runButton.setEnabled(true);
-				else
+				if (Session.existsFullPath()) {
+					// And only if passwordField is populated
+					if (!new String(passwordField.getPassword()).isEmpty()) {
+						runButton.setEnabled(true);
+					} else {
+						runButton.setEnabled(false);
+					}
+				} else {
 					runButton.setEnabled(false);
-			} else
-				// Disable if there are no active Flows
+				}
+			} else {
 				runButton.setEnabled(false);
-		}
-		if (!new String(passwordField.getPassword()).isEmpty()) {
-			runButton.setEnabled(true);
-		} else {
-			runButton.setEnabled(false);
+			}
 		}
 	}
 

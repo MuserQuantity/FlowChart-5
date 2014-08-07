@@ -76,6 +76,7 @@ public class RawResponse {
 		rightPane.setLayout(new BorderLayout());
 		responseArea = new JTextArea();
 		responseScrollPane = new JScrollPane(responseArea);
+		responseScrollPane.setBorder(BorderFactory.createTitledBorder("Flow Responses"));
 		responseArea.setEditable(false);
 		responseArea.setFont(new Font("Consolas", Font.PLAIN, 12));
 		responseArea.setLineWrap(false);
@@ -97,8 +98,8 @@ public class RawResponse {
 			}
 		});
 		buttonPanel.add(exitButton);
-		rightPane.add(responseScrollPane);
-		rightPane.add(buttonPanel);
+		rightPane.add(responseScrollPane, BorderLayout.CENTER);
+		rightPane.add(buttonPanel, BorderLayout.PAGE_END);
 
 		// Splitpane setup
 		dividerLocation = 200;
