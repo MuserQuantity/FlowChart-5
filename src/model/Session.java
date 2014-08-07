@@ -34,7 +34,7 @@ public class Session {
 	}
 
 	/*
-	 * Sensitive code starting here
+	 * Application code starting here
 	 */
 	public static void main(String[] args) {
 		try {
