@@ -61,11 +61,10 @@ public class RawResponse {
 		flowList.setCellRenderer(new DisabledFlowCellRenderer());
 		flowList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
-				// Deleting flows
 				if (evt.getClickCount() == 1) {
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
 					if (index >= 0) {
-
+						updateResponsePane(index);
 					}
 				}
 			}
@@ -120,6 +119,17 @@ public class RawResponse {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
+		for (int i = 0; i < session.size(); i++) {
+			if (session.get(i).isEnabled()) {
+				updateResponsePane(i);
+				break;
+			}
+		}
+	}
+
+	void updateResponsePane(int index) {
+		responseArea.setText(flowListModel.getElementAt(index).collateResponses());
+		responseArea.setCaretPosition(0);
 	}
 
 	@SuppressWarnings("serial")
