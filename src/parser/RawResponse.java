@@ -67,7 +67,12 @@ public class RawResponse {
 		exportCsv = new JMenuItem("CSV");
 		exportCsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
-				RawResponseControls.exportCSVAction();
+				try {
+					RawResponseControls.exportCSVAction();
+				} catch (Exception e) {
+					// TODO logger
+					e.printStackTrace();
+				}
 			}
 		});
 		menu.add(exportCsv);
