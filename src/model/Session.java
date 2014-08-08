@@ -2,6 +2,7 @@ package model;
 
 import gui.Bootup;
 import gui.Login;
+import gui.QueryProgress;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -50,6 +51,9 @@ public class Session {
 	}
 
 	public static void querySession(String pw, boolean isRefresh) {
+		// Start query progress bar
+		new QueryProgress();
+
 		// TODO multithreaded implementation
 		for (Flow f : session) {
 			if (f.isEnabled()) {

@@ -64,11 +64,11 @@ public class Login {
 		overPanel = new JPanel();
 		overPanel.setLayout(new BoxLayout(overPanel, BoxLayout.Y_AXIS));
 
-		// Import/Export Session Menu
+		// Export Session Menu
 		menuBar = new JMenuBar();
 		menu = new JMenu("Session");
 		menu.setMnemonic(KeyEvent.VK_S);
-		menu.getAccessibleContext().setAccessibleDescription("Import or Export Session XML files");
+		menu.getAccessibleContext().setAccessibleDescription("Export Session XML file");
 		exportSession = new JMenuItem("Export");
 		exportSession.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

@@ -1,5 +1,3 @@
-/shell/
-/model/
-/gui/
-/control/
 /parser/
+/gui/
+/model/

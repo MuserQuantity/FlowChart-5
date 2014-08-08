@@ -20,6 +20,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -37,6 +40,10 @@ public class RawResponse {
 	JPanel rightPane;
 	JPanel buttonPanel;
 
+	JMenuBar menuBar;
+	JMenu menu;
+	JMenuItem exportCsv;
+
 	JList<Flow> flowList;
 	DefaultListModel<Flow> flowListModel;
 	JScrollPane flowListScrollPane;
@@ -52,6 +59,19 @@ public class RawResponse {
 	public RawResponse(LinkedList<Flow> session) {
 		frame = new JFrame("Flow Raw Responses");
 		contentPane = (JPanel) frame.getContentPane();
+
+		// Export CSV menu setup
+		menuBar = new JMenuBar();
+		menu = new JMenu("Export");
+		menu.getAccessibleContext().setAccessibleDescription("Export Response Data to CSV File");
+		exportCsv = new JMenuItem("CSV");
+		exportCsv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				RawResponseControls.exportCSVAction();
+			}
+		});
+		menu.add(exportCsv);
+		menuBar.add(menu);
 
 		// Left Flow list setup
 		flowListModel = new DefaultListModel<Flow>();
@@ -123,6 +143,7 @@ public class RawResponse {
 		// GUI setup
 		contentPane.add(splitPane);
 		contentPane.setPreferredSize(new Dimension(1000, 800));
+		frame.setJMenuBar(menuBar);
 		frame.pack();
 		frame.setVisible(true);
 		frame.setResizable(true);
