@@ -14,7 +14,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import parser.RawResponse;
-import shell.Access;
 
 public class Session {
 
@@ -24,6 +23,11 @@ public class Session {
 	public static DefaultMutableTreeNode root;
 	public static Login loginWindow;
 
+	/*
+	 * Abstraction members and vars under here
+	 */
+	static RawResponse responseWindow = null;
+
 	// Open source abstraction layer
 	public static void doAbstract(boolean isRefresh) {
 		/*
@@ -31,8 +35,12 @@ public class Session {
 		 * abstraction can be done with session as seen fit.
 		 */
 
+		// Only open up a response window if sourced from Login
 		if (!isRefresh)
-			new RawResponse(session);
+			responseWindow = new RawResponse(session);
+		else { // Just a refresh call, don't need to reopen response window
+			responseWindow.refreshResponsePane();
+		}
 	}
 
 	/*
@@ -42,26 +50,15 @@ public class Session {
 		try {
 			// Request session XML load/new on boot
 			new Bootup();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			// TODO logger
 		}
-
 	}
 
 	public static void querySession(String pw, boolean isRefresh) {
 		// Start query progress bar
-		new QueryProgress();
-
-		// TODO multithreaded implementation
-		for (Flow f : session) {
-			if (f.isEnabled()) {
-				Access a = new Access(f, ssoID, pw);
-				a.startConnectionRoutine();
-			}
-		}
-		doAbstract(isRefresh);
+		new QueryProgress(pw, isRefresh);
 	}
 
 	// Kick off Login window
@@ -107,7 +104,6 @@ public class Session {
 	}
 
 	public static boolean removeServer(TreePath path, Server server) {
-
 		for (Flow f : session) {
 			if (f.getLabel().equals(path.getPathComponent(1).toString())) {
 				return f.getServerList().remove(server);
@@ -167,7 +163,6 @@ public class Session {
 	}
 
 	public static DefaultListModel<Server> getDLMofServers(TreePath path) throws Exception {
-
 		if (session.isEmpty())
 			return new DefaultListModel<Server>();
 
@@ -223,7 +218,6 @@ public class Session {
 		}
 		// Otherwise, just a CMD, return data verbatim
 		return cs.getData();
-
 	}
 
 	public static boolean existsFullPath() {

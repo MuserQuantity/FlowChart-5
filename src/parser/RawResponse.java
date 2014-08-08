@@ -111,12 +111,6 @@ public class RawResponse {
 			public void actionPerformed(ActionEvent e) {
 				// Requery enabled Flows and refresh flowListModel
 				Session.querySession(Login.getPWString(), true);
-				int prevPos = flowList.getSelectedIndex();
-				flowListModel.clear();
-				for (Flow f : Session.session)
-					flowListModel.addElement(f);
-				flowList.setSelectedIndex(prevPos);
-				updateResponsePane(prevPos);
 			}
 		});
 		buttonPanel.add(refreshButton);
@@ -159,9 +153,21 @@ public class RawResponse {
 		}
 	}
 
+	public void refreshResponsePane() {
+		int prevPos = flowList.getSelectedIndex();
+		flowListModel.clear();
+		for (Flow f : Session.session)
+			flowListModel.addElement(f);
+		flowList.setSelectedIndex(prevPos);
+
+		updateResponsePane(prevPos);
+	}
+
 	void updateResponsePane(int index) {
 		responseArea.setText(flowListModel.getElementAt(index).collateResponses());
 		responseArea.setCaretPosition(0);
+		frame.revalidate();
+		frame.repaint();
 	}
 
 	@SuppressWarnings("serial")
