@@ -6,6 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 import log.Alerts;
 import model.CmdScript;
 import model.Flow;
@@ -17,6 +24,8 @@ import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Elements;
 import nu.xom.Serializer;
+
+import org.xml.sax.SAXException;
 
 public class Persist {
 
@@ -55,7 +64,7 @@ public class Persist {
 	// Only happens when loading save
 	public static boolean startupXMLRoutine(File xmlSession) {
 		try {
-			// TODO check XSD validate XML file schema. make sure well-formed
+			// Check XSD validate XML file schema. make sure well-formed
 			if (xmlSessionSchemaCheck(xmlSession)) {
 				// If good, attach it to session
 				Session.session = retrieveSessionfromSave(xmlSession);
@@ -80,7 +89,6 @@ public class Persist {
 
 				return true;
 			} else {
-				Alerts.infoBox("Malformed XML Session File, please check integrity of XML session schema.", "Malformed Imported XML Schema");
 				return false;
 			}
 
@@ -91,9 +99,21 @@ public class Persist {
 		return false;
 	}
 
-	public static boolean xmlSessionSchemaCheck(File xml) {
+	public static boolean xmlSessionSchemaCheck(File xml) throws Exception {
 		// TODO xml schema check
-		return true;
+		File schemaFile = new File("FlowChart_xml_schema.xsd");
+		Source xmlFile = new StreamSource(xml);
+		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = schemaFactory.newSchema(schemaFile);
+		Validator validator = schema.newValidator();
+		try {
+			validator.validate(xmlFile);
+			return true;
+		} catch (SAXException e) {
+			Alerts.infoBox(xml.getName() + " is not a valid XML Session file.", "Invalid XML");
+			// TODO logger
+			return false;
+		}
 	}
 
 	public static int scriptIntegrityCheck() {
