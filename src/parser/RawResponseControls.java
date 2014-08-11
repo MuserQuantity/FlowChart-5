@@ -33,8 +33,8 @@ public class RawResponseControls {
 				super.approveSelection();
 			}
 		};
-		fc.setFileFilter(new FileNameExtensionFilter("Session CSV File", "csv"));
-		fc.setDialogTitle("Export Session to CSV");
+		fc.setFileFilter(new FileNameExtensionFilter("Spreadsheet File", "csv", "xls"));
+		fc.setDialogTitle("Export Session to Spreadsheet");
 		int returnVal = fc.showSaveDialog(fc);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			RawResponseCSV.exportCSV(fc.getSelectedFile().getCanonicalPath());

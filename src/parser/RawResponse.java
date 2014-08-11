@@ -63,8 +63,8 @@ public class RawResponse {
 		// Export CSV menu setup
 		menuBar = new JMenuBar();
 		menu = new JMenu("Export");
-		menu.getAccessibleContext().setAccessibleDescription("Export Response Data to CSV File");
-		exportCsv = new JMenuItem("CSV");
+		menu.getAccessibleContext().setAccessibleDescription("Export Response Data to XLS File");
+		exportCsv = new JMenuItem("XLS");
 		exportCsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
