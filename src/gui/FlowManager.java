@@ -38,6 +38,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import log.Alerts;
+import log.Logger;
 import model.CmdScript;
 import model.Flow;
 import model.Server;
@@ -158,7 +159,7 @@ public class FlowManager {
 						// Cancel option
 					}
 				} catch (Exception ex) {
-					// TODO logger
+					Logger.log("Error adding new Script file: " + csTextField.getText());
 					ex.printStackTrace();
 				}
 			}
@@ -399,14 +400,13 @@ public class FlowManager {
 					} else if (node.getUserObject() instanceof CmdScript) {
 						panelNum = 3;
 					} else {
-						System.err.println("Shouldn't happen. See logs.");
-						// TODO logger
+						Logger.log("Error switching editor panes: Pane #" + panelNum);
 					}
 					if (path != null) {
 						try {
 							updateUI(panelNum, path);
 						} catch (Exception ex) {
-							// TODO logger
+							Logger.log("Error updating editor panes with content");
 							ex.printStackTrace();
 						}
 					}
@@ -483,8 +483,7 @@ public class FlowManager {
 			csViewer.setCaretPosition(0);
 			splitPane.add(cmdScriptViewer);
 		} else {
-			System.err.println("Shouldn't happen. See logs.");
-			// TODO logger
+			Logger.log("Error switching editor panes: Pane #" + panNum);
 		}
 		splitPane.setDividerLocation(dividerLocation);
 		contentPane.revalidate();

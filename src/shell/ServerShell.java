@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import log.Logger;
 import model.CmdScript;
 import model.Server;
 import ch.ethz.ssh2.Connection;
@@ -37,6 +38,7 @@ public class ServerShell {
 					// If CMD
 					if (cs.isCmd()) {
 						cs.setResponse(executeCommand(cs.getData()));
+						Logger.log("User: " + username + " has queried server hostname: " + server.getServerName());
 					} else { // If Script file
 
 					}
@@ -72,12 +74,11 @@ public class ServerShell {
 		// Read error out
 		String errLine = brErr.readLine();
 		while (errLine != null) {
-			// TODO logger
 			errLine = brErr.readLine();
+			Logger.log("Error executing command: " + command + " on server hostname: " + server.getServerName() + " - " + errLine);
 		}
 
-		// TODO logger - DEBUG: dump the exit code
-		// System.out.println("ExitCode: " + session.getExitStatus());
+		Logger.log("Command execution Exit Code: " + session.getExitStatus());
 
 		// Close the session
 		session.close();

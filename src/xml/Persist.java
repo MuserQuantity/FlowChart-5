@@ -14,6 +14,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import log.Alerts;
+import log.Logger;
 import model.CmdScript;
 import model.Flow;
 import model.Server;
@@ -93,14 +94,13 @@ public class Persist {
 			}
 
 		} catch (Exception e) {
-			// TODO logger
+			Logger.log("Error detected in XML startup routine");
 			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public static boolean xmlSessionSchemaCheck(File xml) throws Exception {
-		// TODO xml schema check
 		File schemaFile = new File("FlowChart_xml_schema.xsd");
 		Source xmlFile = new StreamSource(xml);
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -111,7 +111,7 @@ public class Persist {
 			return true;
 		} catch (SAXException e) {
 			Alerts.infoBox(xml.getName() + " is not a valid XML Session file.", "Invalid XML");
-			// TODO logger
+			Logger.log("Error loading XML file " + xml.getName() + " due to XML malformity. Please check schema.");
 			return false;
 		}
 	}
@@ -169,7 +169,7 @@ public class Persist {
 				session.add(f);
 			}
 		} catch (Exception e) {
-			// TODO logger
+			Logger.log("Error retrieving XML session from save: " + xmlSession.getName());
 			e.printStackTrace();
 		}
 		return session;
@@ -188,12 +188,12 @@ public class Persist {
 			fos.close();
 
 		} catch (Exception e) {
-			// TODO logger
 			// sessionToXMLDoc is null because user quit without any SOOID input
+			Logger.log("Cannot persist XML file due to user exiting application without username input");
 			try {
 				fos.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+				Logger.log("Error closing FileOutputStream when saving XML session file");
 				e1.printStackTrace();
 			}
 			System.out.println(xmlFile.delete());

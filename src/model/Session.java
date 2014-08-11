@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import log.Logger;
 import parser.RawResponse;
 
 public class Session {
@@ -52,7 +53,7 @@ public class Session {
 			new Bootup();
 		} catch (Exception e) {
 			e.printStackTrace();
-			// TODO logger
+			Logger.log("Error at bootup option select");
 		}
 	}
 

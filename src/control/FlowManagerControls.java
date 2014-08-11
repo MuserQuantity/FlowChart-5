@@ -7,6 +7,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import log.Logger;
 import model.CmdScript;
 import model.Flow;
 import model.Server;
@@ -30,7 +31,7 @@ public class FlowManagerControls {
 	public static void saveCmdChangesAction(String newCmd, DefaultTreeModel flowTreeModel, TreePath path) {
 		// Memory alter
 		if (!Session.editCommand(path, newCmd)) {
-			// TODO logger
+			Logger.log("Error saving text edit changes. Cannot apply: " + newCmd);
 		} else {
 			// Left pane tree alter
 			CmdScript newCS = (CmdScript) ((DefaultMutableTreeNode) path.getPathComponent(3)).getUserObject();
@@ -42,7 +43,7 @@ public class FlowManagerControls {
 	public static void deleteFlowDoubleClick(int index, DefaultTreeModel flowTreeModel) {
 		// Memory remove
 		if (!Session.removeFlow((Flow) Session.flowListModel.get(index))) {
-			// TODO logger
+			Logger.log("Error removing Flow from memory: " + Session.flowListModel.get(index).getLabel());
 		} else {
 			// Left pane tree remove
 			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(Session.root, index));
@@ -56,7 +57,7 @@ public class FlowManagerControls {
 	public static void deleteServerDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<Server> serverListModel, TreePath path) {
 		// Memory remove
 		if (!Session.removeServer(path, (Server) serverListModel.get(index))) {
-			// TODO logger
+			Logger.log("Error removing Server from memory: " + serverListModel.get(index).getServerName());
 		} else {
 			// Left pane tree remove
 			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));
@@ -70,7 +71,7 @@ public class FlowManagerControls {
 	public static void deleteCmdScriptDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<CmdScript> csListModel, TreePath path) {
 		// Memory remove
 		if (!Session.removeCS(path, (CmdScript) csListModel.get(index))) {
-			// TODO logger
+			Logger.log("Error removing command or script from memory: " + csListModel.get(index).getData());
 		} else {
 			// Left pane tree remove
 			flowTreeModel.removeNodeFromParent((DefaultMutableTreeNode) flowTreeModel.getChild(path.getLastPathComponent(), index));

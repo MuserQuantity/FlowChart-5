@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
+import log.Logger;
 import model.CmdScript;
 import model.Flow;
 import model.Server;
@@ -59,7 +60,7 @@ public class Converter {
 			s.setMaxLength(64);
 			s.write(doc);
 		} catch (Exception e) {
-			// TODO logger
+			Logger.log("Error printing pretty XML");
 			e.printStackTrace();
 		}
 	}

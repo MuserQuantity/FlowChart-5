@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import log.Alerts;
+import log.Logger;
 import model.Flow;
 import model.Server;
 import model.Session;
@@ -72,6 +73,7 @@ public class RawResponseCSV {
 					HSSFCell respCell = tempRow.createCell(2);
 					respCell.setCellValue(s.collateResponses());
 
+					// Alternate line styling
 					if (newRowIndex % 2 == 0) {
 						servCell.setCellStyle(serverStyle);
 						respCell.setCellStyle(responseStyle);
@@ -79,7 +81,7 @@ public class RawResponseCSV {
 
 					newRowIndex++;
 				}
-			} else {
+			} else { // Handle grayed out disabled Flow
 				HSSFRow tempRow = sheet.createRow(newRowIndex);
 				HSSFCell flowCell = tempRow.createCell(0);
 				flowCell.setCellValue(f.getLabel() + "<DISABLED>");
@@ -107,16 +109,16 @@ public class RawResponseCSV {
 			FileOutputStream out = new FileOutputStream(f);
 			workbook.write(out);
 
-			// TODO logger
-			System.out.println("Exported CSV to\n'" + f.getAbsolutePath() + "'");
+			Logger.log("Exported raw response spreadsheet to: " + filepath);
 
 			out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {
 			Alerts.infoBox("Exported file currently in use by another process.", "File in Use");
+			Logger.log("Could not export raw response spreadsheet, spreadsheet currently in use");
 		} catch (IOException e) {
 			e.printStackTrace();
-			// TODO logger
+			Logger.log("Error exporting raw response spreadsheet to: " + filepath);
 		}
 	}
 }

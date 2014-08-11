@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 
+import log.Logger;
 import model.Flow;
 import model.Session;
 import control.LoginControls;
@@ -76,7 +77,7 @@ public class Login {
 					LoginControls.exportSessionAction();
 				} catch (Exception e) {
 					e.printStackTrace();
-					// TODO logger
+					Logger.log("Error exporting XML session");
 				}
 			}
 		});

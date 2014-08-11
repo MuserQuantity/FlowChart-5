@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import log.Logger;
 import control.BootupControls;
 
 public class Bootup {
@@ -40,7 +41,7 @@ public class Bootup {
 					BootupControls.loadXMLButtonAction(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
-					// TODO logger
+					Logger.log("Error loading XML session in bootup window");
 				}
 			}
 		});
@@ -51,7 +52,7 @@ public class Bootup {
 					BootupControls.newSessionButtonAction(frame);
 				} catch (Exception e) {
 					e.printStackTrace();
-					// TODO logger
+					Logger.log("Error starting new session in bootup window");
 				}
 			}
 		});

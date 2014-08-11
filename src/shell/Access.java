@@ -5,6 +5,7 @@ import gui.QueryProgress;
 import java.util.LinkedList;
 
 import log.Alerts;
+import log.Logger;
 import model.Flow;
 import model.Server;
 
@@ -28,20 +29,16 @@ public class Access {
 		for (Server s : flow.getServerList()) {
 			try {
 				if (new ServerShell(s, username, password).query()) {
-					// TODO logger
-					// System.out.println("Access granted for Server " +
-					// s.getServerName() + " in Flow: " + flow.getLabel());
+					Logger.log("* Access GRANTED to " + username + " for server hostname: " + s.getServerName() + " in Flow: " + flow.getLabel());
 					s.setAuthenticated(true);
 				} else {
-					// TODO logger
-					// System.err.println("Access denied for Server " +
-					// s.getServerName() + " in Flow: " + flow.getLabel());
+					Logger.log("* Access DENIED to " + username + " for server hostname: " + s.getServerName() + " in Flow: " + flow.getLabel());
 					s.setAuthenticated(false);
 					accessDenyList.add(s);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				// TODO logger
+				Logger.log("Error granting access for user: " + username + " to server hostname: " + s.getServerName() + " in Flow: " + flow.getLabel());
 			}
 			QueryProgress.progress++;
 		}

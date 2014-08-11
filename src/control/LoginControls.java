@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import log.Logger;
 import model.Session;
 import nu.xom.Serializer;
 import xml.Converter;
@@ -86,8 +87,9 @@ public class LoginControls {
 				s.write(Persist.sessionToXMLDoc(Session.session));
 				fos.close();
 
+				Logger.log("Session XML exported to: " + xmlFile.getCanonicalPath());
 			} catch (Exception e) {
-				// TODO logger
+				Logger.log("Error exporting XML session: " + fc.getSelectedFile().getCanonicalPath());
 				e.printStackTrace();
 			}
 		} else {

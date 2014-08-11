@@ -29,6 +29,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
+import log.Logger;
 import model.Flow;
 import model.Session;
 
@@ -70,7 +71,7 @@ public class RawResponse {
 				try {
 					RawResponseControls.exportCSVAction();
 				} catch (Exception e) {
-					// TODO logger
+					Logger.log("Error exporting response spreadsheet");
 					e.printStackTrace();
 				}
 			}
