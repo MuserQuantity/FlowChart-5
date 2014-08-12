@@ -14,3 +14,4 @@ Mon Aug 11 15:17:00 EDT 2014	Command execution Exit Code: 0
 Mon Aug 11 15:17:00 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
 Mon Aug 11 15:17:00 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
 Mon Aug 11 15:17:05 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah2.xls
+Tue Aug 12 10:46:06 EDT 2014	Error loading XML file session.xml due to XML malformity. Please check schema.

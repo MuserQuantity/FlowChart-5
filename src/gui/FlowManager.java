@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -24,7 +26,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -198,12 +202,30 @@ public class FlowManager {
 		flowListScrollPane.setBorder(BorderFactory.createTitledBorder("Flow List"));
 		flowList.setCellRenderer(new DisabledFlowCellRenderer());
 		flowList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				// Deleting flows
-				if (evt.getClickCount() == 2) {
+			// Deleting flows w/ double click
+			// public void mouseClicked(MouseEvent evt) {
+			// if (evt.getClickCount() == 2) {
+			// int index = ((JList<?>)
+			// evt.getSource()).locationToIndex(evt.getPoint());
+			// if (index >= 0) {
+			// FlowManagerControls.deleteFlowDoubleClick(index, flowTreeModel);
+			// }
+			// }
+			// }
+
+			// Deleting flows with right click menu
+			public void mouseReleased(MouseEvent evt) {
+				if (evt.isPopupTrigger()) {
+					// Get click index
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
+					// Check selection index is on list
 					if (index >= 0) {
-						FlowManagerControls.deleteFlowDoubleClick(index, flowTreeModel);
+						// Set selection highlight on index
+						((JList<?>) evt.getComponent()).setSelectedIndex(index);
+
+						// Initialize and show right click menu
+						RightClickMenu rcm = new RightClickMenu(index, flowTreeModel);
+						rcm.show(evt.getComponent(), evt.getX(), evt.getY());
 					}
 				}
 			}
@@ -259,11 +281,31 @@ public class FlowManager {
 		serverListScrollPane = new JScrollPane(serverList);
 		serverListScrollPane.setBorder(BorderFactory.createTitledBorder("Server List"));
 		serverList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				if (evt.getClickCount() == 2) {
+			// Deleting Servers w/ double click
+			// public void mouseClicked(MouseEvent evt) {
+			// if (evt.getClickCount() == 2) {
+			// int index = ((JList<?>)
+			// evt.getSource()).locationToIndex(evt.getPoint());
+			// if (index >= 0) {
+			// FlowManagerControls.deleteServerAction(index, flowTreeModel,
+			// serverListModel, flowTree.getSelectionPath());
+			// }
+			// }
+			// }
+
+			// Deleting flows with right click menu
+			public void mouseReleased(MouseEvent evt) {
+				if (evt.isPopupTrigger()) {
+					// Get click index
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
+					// Check selection index is on list
 					if (index >= 0) {
-						FlowManagerControls.deleteServerDoubleClick(index, flowTreeModel, serverListModel, flowTree.getSelectionPath());
+						// Set selection highlight on index
+						((JList<?>) evt.getComponent()).setSelectedIndex(index);
+
+						// Initialize and show right click menu
+						RightClickMenu rcm = new RightClickMenu(index, flowTreeModel, serverListModel);
+						rcm.show(evt.getComponent(), evt.getX(), evt.getY());
 					}
 				}
 			}
@@ -317,15 +359,36 @@ public class FlowManager {
 		csListScrollPane = new JScrollPane(csList);
 		csListScrollPane.setBorder(BorderFactory.createTitledBorder("Command/Script List"));
 		csList.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent evt) {
-				if (evt.getClickCount() == 2) {
+			// Deleting CmdScripts w/ double click
+			// public void mouseClicked(MouseEvent evt) {
+			// if (evt.getClickCount() == 2) {
+			// int index = ((JList<?>)
+			// evt.getSource()).locationToIndex(evt.getPoint());
+			// if (index >= 0) {
+			// FlowManagerControls.deleteCmdScriptAction(index, flowTreeModel,
+			// csListModel, flowTree.getSelectionPath());
+			// }
+			// }
+			// }
+
+			// Deleting CmdScripts with right click menu
+			public void mouseReleased(MouseEvent evt) {
+				if (evt.isPopupTrigger()) {
+					// Get click index
 					int index = ((JList<?>) evt.getSource()).locationToIndex(evt.getPoint());
+					// Check selection index is on list
 					if (index >= 0) {
-						FlowManagerControls.deleteCmdScriptDoubleClick(index, flowTreeModel, csListModel, flowTree.getSelectionPath());
+						// Set selection highlight on index
+						((JList<?>) evt.getComponent()).setSelectedIndex(index);
+
+						// Initialize and show right click menu
+						RightClickMenu rcm = new RightClickMenu(index, flowTreeModel, csListModel, flowTree.getSelectionPath());
+						rcm.show(evt.getComponent(), evt.getX(), evt.getY());
 					}
 				}
 			}
 		});
+
 		csTextField = new JTextField();
 		csTextField.setBorder(BorderFactory.createTitledBorder("New Command/Script"));
 		csTextField.setMaximumSize(new Dimension(Integer.MAX_VALUE, csTextField.getPreferredSize().height));
@@ -493,6 +556,69 @@ public class FlowManager {
 	static void expandRowsInJTree() {
 		for (int i = 0; i < flowTree.getRowCount(); i++)
 			flowTree.expandRow(i);
+	}
+
+	@SuppressWarnings("serial")
+	class RightClickMenu extends JPopupMenu {
+		JMenuItem copy;
+		JMenuItem delete;
+
+		// Right click menu for Flow editor
+		public RightClickMenu(final int index, final DefaultTreeModel flowTreeModel) {
+			copy = new JMenuItem("Copy to clipboard");
+			copy.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					StringSelection stringSelection = new StringSelection(Session.flowListModel.get(index).getLabel());
+					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+				}
+			});
+			delete = new JMenuItem("Delete Flow");
+			delete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					FlowManagerControls.deleteFlowAction(index, flowTreeModel);
+				}
+			});
+			add(copy);
+			add(delete);
+		}
+
+		// Right click menu for Server editor
+		public RightClickMenu(final int index, final DefaultTreeModel flowTreeModel, final DefaultListModel<Server> serverListModel) {
+			copy = new JMenuItem("Copy to clipboard");
+			copy.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					StringSelection stringSelection = new StringSelection(serverListModel.get(index).getServerName());
+					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+				}
+			});
+			delete = new JMenuItem("Delete Server");
+			delete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					FlowManagerControls.deleteServerAction(index, flowTreeModel, serverListModel, flowTree.getSelectionPath());
+				}
+			});
+			add(copy);
+			add(delete);
+		}
+
+		// Right click menu for CmdScript editor
+		public RightClickMenu(final int index, final DefaultTreeModel flowTreeModel, final DefaultListModel<CmdScript> csListModel, final TreePath selectionPath) {
+			copy = new JMenuItem("Copy to clipboard");
+			copy.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					StringSelection stringSelection = new StringSelection(csListModel.get(index).getData());
+					Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+				}
+			});
+			delete = new JMenuItem("Delete Cmd/Script");
+			delete.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					FlowManagerControls.deleteCmdScriptAction(index, flowTreeModel, csListModel, selectionPath);
+				}
+			});
+			add(copy);
+			add(delete);
+		}
 	}
 
 	@SuppressWarnings("serial")

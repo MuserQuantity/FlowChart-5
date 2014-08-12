@@ -40,7 +40,7 @@ public class FlowManagerControls {
 		}
 	}
 
-	public static void deleteFlowDoubleClick(int index, DefaultTreeModel flowTreeModel) {
+	public static void deleteFlowAction(int index, DefaultTreeModel flowTreeModel) {
 		// Memory remove
 		if (!Session.removeFlow((Flow) Session.flowListModel.get(index))) {
 			Logger.log("Error removing Flow from memory: " + Session.flowListModel.get(index).getLabel());
@@ -54,7 +54,7 @@ public class FlowManagerControls {
 
 	}
 
-	public static void deleteServerDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<Server> serverListModel, TreePath path) {
+	public static void deleteServerAction(int index, DefaultTreeModel flowTreeModel, DefaultListModel<Server> serverListModel, TreePath path) {
 		// Memory remove
 		if (!Session.removeServer(path, (Server) serverListModel.get(index))) {
 			Logger.log("Error removing Server from memory: " + serverListModel.get(index).getServerName());
@@ -68,7 +68,7 @@ public class FlowManagerControls {
 
 	}
 
-	public static void deleteCmdScriptDoubleClick(int index, DefaultTreeModel flowTreeModel, DefaultListModel<CmdScript> csListModel, TreePath path) {
+	public static void deleteCmdScriptAction(int index, DefaultTreeModel flowTreeModel, DefaultListModel<CmdScript> csListModel, TreePath path) {
 		// Memory remove
 		if (!Session.removeCS(path, (CmdScript) csListModel.get(index))) {
 			Logger.log("Error removing command or script from memory: " + csListModel.get(index).getData());
