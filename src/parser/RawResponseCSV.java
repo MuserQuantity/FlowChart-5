@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 
 import log.Alerts;
 import log.Logger;
+import model.CmdScript;
 import model.Flow;
 import model.Server;
 import model.Session;
@@ -25,85 +27,80 @@ public class RawResponseCSV {
 		if (!filepath.substring(filepath.length() - 4).equalsIgnoreCase(".xls"))
 			filepath += ".xls";
 
-		// Create new worksheet/book
+		// Create new workbook
 		HSSFWorkbook workbook = new HSSFWorkbook();
-		HSSFSheet sheet = workbook.createSheet("Flow Export");
 
-		// Create column headers and styles
-		HSSFRow headerRow = sheet.createRow(0);
+		// Create some styles
+		HSSFCellStyle goldStyle = workbook.createCellStyle();
+		goldStyle.setFillForegroundColor(HSSFColor.GOLD.index);
+		goldStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
-		HSSFCellStyle flowStyle = workbook.createCellStyle();
-		flowStyle.setFillForegroundColor(HSSFColor.GOLD.index);
-		flowStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		HSSFCellStyle lightGreyStyle = workbook.createCellStyle();
+		lightGreyStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+		lightGreyStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
-		HSSFCellStyle serverStyle = workbook.createCellStyle();
-		serverStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
-		serverStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		HSSFCellStyle blueStyle = workbook.createCellStyle();
+		blueStyle.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
+		blueStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
-		HSSFCellStyle responseStyle = workbook.createCellStyle();
-		responseStyle.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
-		responseStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-
-		HSSFCell flowHead = headerRow.createCell(0);
-		flowHead.setCellValue("Flow");
-		flowHead.setCellStyle(flowStyle);
-
-		HSSFCell serverHead = headerRow.createCell(1);
-		serverHead.setCellValue("Server");
-		serverHead.setCellStyle(serverStyle);
-
-		HSSFCell responseHead = headerRow.createCell(2);
-		responseHead.setCellValue("Response");
-		responseHead.setCellStyle(responseStyle);
-
-		// Populate contents of Session into worksheet
-		int newRowIndex = 1;
 		for (Flow f : Session.session) {
 			if (f.isEnabled()) {
+				// Create a new sheet per enabled Flow
+				HSSFSheet sheet = workbook.createSheet(f.getLabel());
+				int rowIter = 0;
+
+				// For each Server in this Flow, do special parsing behavior
 				for (Server s : f.getServerList()) {
-					HSSFRow tempRow = sheet.createRow(newRowIndex);
+					// Header contains server, time, count
+					HSSFRow headerRow = sheet.createRow(rowIter);
+					HSSFCell serverHead = headerRow.createCell(0);
+					serverHead.setCellValue(s.getServerName());
+					serverHead.setCellStyle(goldStyle);
+					HSSFCell timeHead = headerRow.createCell(1);
+					timeHead.setCellValue("Time");
+					timeHead.setCellStyle(blueStyle);
+					HSSFCell countHead = headerRow.createCell(2);
+					countHead.setCellValue("Count");
+					countHead.setCellStyle(blueStyle);
 
-					HSSFCell flowCell = tempRow.createCell(0);
-					flowCell.setCellValue(f.getLabel());
-					flowCell.setCellStyle(flowStyle);
+					rowIter++;
 
-					HSSFCell servCell = tempRow.createCell(1);
-					servCell.setCellValue(s.getServerName());
+					for (CmdScript cs : s.getCmdScriptList()) {
+						// Do special parsing behavior for 'cat' results
+						// TODO: dumb consumption of responses ATM
+						for (String[] logEntry : catLogParser(cs.getResponse())) {
+							HSSFRow entryRow = sheet.createRow(rowIter);
 
-					HSSFCell respCell = tempRow.createCell(2);
-					respCell.setCellValue(s.collateResponses());
+							HSSFCell timeCell = entryRow.createCell(1);
+							timeCell.setCellValue(logEntry[1]);
 
-					// Alternate line styling
-					if (newRowIndex % 2 == 0) {
-						servCell.setCellStyle(serverStyle);
-						respCell.setCellStyle(responseStyle);
+							HSSFCell countCell = entryRow.createCell(2);
+							countCell.setCellValue(Integer.parseInt(logEntry[0]));
+
+							if (rowIter % 2 == 0) {
+								timeCell.setCellStyle(lightGreyStyle);
+								countCell.setCellStyle(lightGreyStyle);
+							}
+
+							rowIter++;
+						}
+						rowIter++;
 					}
-
-					newRowIndex++;
+					rowIter++;
 				}
-			} else { // Handle grayed out disabled Flow
-				HSSFRow tempRow = sheet.createRow(newRowIndex);
-				HSSFCell flowCell = tempRow.createCell(0);
-				flowCell.setCellValue(f.getLabel() + "<DISABLED>");
-				flowCell.setCellStyle(serverStyle);
-
-				HSSFCell servCell = tempRow.createCell(1);
-				servCell.setCellValue("");
-				servCell.setCellStyle(serverStyle);
-
-				HSSFCell respCell = tempRow.createCell(2);
-				respCell.setCellValue("");
-				respCell.setCellStyle(serverStyle);
-
-				newRowIndex++;
+				sheet.autoSizeColumn(0);
+				sheet.autoSizeColumn(1);
+				sheet.autoSizeColumn(2);
 			}
+
 		}
 
-		// Fit data into columns
-		sheet.autoSizeColumn(0);
-		sheet.autoSizeColumn(1);
-		sheet.autoSizeColumn(2);
+		writeCSVFile(filepath, workbook);
 
+	}
+
+	static void writeCSVFile(String filepath, HSSFWorkbook workbook) {
+		// Write CSV file to user defined location
 		try {
 			File f = new File(filepath);
 			FileOutputStream out = new FileOutputStream(f);
@@ -121,4 +118,17 @@ public class RawResponseCSV {
 			Logger.log("Error exporting raw response spreadsheet to: " + filepath);
 		}
 	}
+
+	static LinkedList<String[]> catLogParser(String response) {
+		LinkedList<String[]> catLog = new LinkedList<String[]>();
+
+		for (String line : response.split("\n")) {
+			String[] lineSplit = line.trim().split(" ");
+
+			catLog.add(lineSplit);
+		}
+
+		return catLog;
+	}
+
 }

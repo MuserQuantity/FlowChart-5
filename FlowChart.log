@@ -15,3 +15,132 @@ Mon Aug 11 15:17:00 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
 Mon Aug 11 15:17:00 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
 Mon Aug 11 15:17:05 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah2.xls
 Tue Aug 12 10:46:06 EDT 2014	Error loading XML file session.xml due to XML malformity. Please check schema.
+Tue Aug 12 11:23:31 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 11:23:31 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 11:23:31 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 11:23:33 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 11:23:33 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 11:23:33 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 11:23:54 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 11:49:22 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 11:49:22 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 11:49:22 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 11:49:23 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 11:49:23 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 11:49:23 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 11:49:24 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 11:49:24 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 11:49:24 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:04:13 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:04:13 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:04:13 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:04:14 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:04:14 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:04:14 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:04:15 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:04:15 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:04:15 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:04:28 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:06:19 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:06:19 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:06:19 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:06:20 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:06:20 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:06:20 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:06:21 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:06:21 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:06:21 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:06:26 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:08:10 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:08:10 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:08:10 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:08:10 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:08:10 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:08:10 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:08:11 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:08:11 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:08:11 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:08:15 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:09:49 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:09:49 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:09:49 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:09:50 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:09:50 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:09:50 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:09:50 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:09:50 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:09:50 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:09:56 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:11:45 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:11:45 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:11:45 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:11:46 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:11:46 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:11:46 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:11:47 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:11:47 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:11:47 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:11:51 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:13:25 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:13:25 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:13:25 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:13:26 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:13:26 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:13:26 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:13:26 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:13:26 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:13:26 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:13:34 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah2.xls
+Tue Aug 12 15:15:03 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:15:03 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:15:03 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:15:04 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:15:04 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:15:04 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:15:05 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:15:05 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:15:05 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:15:09 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:16:21 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:16:21 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:16:21 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:16:21 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:16:21 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:16:22 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:16:22 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:16:22 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:16:23 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:16:23 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:16:23 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:16:27 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:20:55 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:20:55 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:20:55 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:20:56 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:20:56 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:20:56 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:20:56 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:20:56 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:20:56 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:21:02 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:22:22 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:22:22 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:22:22 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:22:23 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:22:23 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:22:23 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:22:24 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:22:24 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:22:24 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:22:28 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
+Tue Aug 12 15:23:13 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:23:13 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:23:13 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 12 15:23:14 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:23:14 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:23:14 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 12 15:23:15 EDT 2014	Command execution Exit Code: 0
+Tue Aug 12 15:23:15 EDT 2014	User: sy12586 has queried server hostname: fxpbps7
+Tue Aug 12 15:23:15 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 12 15:23:20 EDT 2014	Could not export raw response spreadsheet, spreadsheet currently in use
+Tue Aug 12 15:23:25 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\blah.xls
