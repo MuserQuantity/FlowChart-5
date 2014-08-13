@@ -94,7 +94,7 @@ public class Persist {
 			}
 
 		} catch (Exception e) {
-			Logger.log("Error detected in XML startup routine");
+			Logger.log("Error detected in XML startup routine: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return false;
