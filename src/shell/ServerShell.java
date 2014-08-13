@@ -53,12 +53,11 @@ public class ServerShell {
 	}
 
 	public String executeScript(File script) throws Exception {
-		// Open a session
-		Session session = connection.openSession();
 
-		StringBuilder sb = new StringBuilder();
+		ScriptShell.sftpScriptFile(server, username, password, script);
 
-		return sb.toString();
+		return "";
+
 	}
 
 	public String executeCommand(String command) throws Exception {
