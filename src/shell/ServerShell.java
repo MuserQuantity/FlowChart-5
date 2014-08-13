@@ -1,6 +1,7 @@
 package shell;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,9 +39,10 @@ public class ServerShell {
 					// If CMD
 					if (cs.isCmd()) {
 						cs.setResponse(executeCommand(cs.getData()));
-						Logger.log("User: " + username + " has queried server hostname: " + server.getServerName());
+						Logger.log("User: " + username + " has CMD queried server hostname: " + server.getServerName());
 					} else { // If Script file
-
+						cs.setResponse(executeScript(new File(cs.getData())));
+						Logger.log("User: " + username + " has SCRIPT queried server hostname: " + server.getServerName());
 					}
 				}
 			}
@@ -48,6 +50,15 @@ public class ServerShell {
 			return true;
 		}
 		return false;
+	}
+
+	public String executeScript(File script) throws Exception {
+		// Open a session
+		Session session = connection.openSession();
+
+		StringBuilder sb = new StringBuilder();
+
+		return sb.toString();
 	}
 
 	public String executeCommand(String command) throws Exception {

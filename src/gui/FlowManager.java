@@ -158,6 +158,7 @@ public class FlowManager {
 									csListModel.size() - 1);
 
 							treeScrollPane.getVerticalScrollBar().setValue(treeScrollPane.getVerticalScrollBar().getMaximum());
+							expandRowsInJTree();
 						}
 					} else {
 						// Cancel option
