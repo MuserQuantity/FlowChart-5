@@ -522,11 +522,6 @@ public class FlowManager {
 			cmdScriptEditor.setBorder(BorderFactory.createTitledBorder("CMD/Script Editor for Server: " + path.getLastPathComponent()));
 			csList.setCellRenderer(new ScriptBlueDisabledRedTextRenderer());
 			splitPane.add(cmdScriptEditor);
-			// TODO enable when feature complete
-			/*
-			 * Maybe SFTP file in, execute, and remove?
-			 */
-			addScriptButton.setEnabled(false);
 		} else if (panNum == 3) { // Switch to cmd script viewer
 			splitPane.remove(2);
 			// Different GUI logic depending on whether item is CMD/Script
