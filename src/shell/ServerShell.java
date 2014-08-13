@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 import log.Logger;
 import model.CmdScript;
@@ -53,9 +54,30 @@ public class ServerShell {
 	}
 
 	public String executeScript(File script) throws Exception {
+		// Send script file over to /tmp/ directory
 		ScriptShell.sftpScriptFile(server, username, password, script);
+
+		// Convert ^M endline carriages to UNIX readable endline
+		// Generate random ID to tag onto end of translated script file
+		String randomID = String.valueOf(randInt(1000, 9999));
+
+		// Convert original script file name to name+randomID
+		executeCommand("mv /tmp/" + script.getName() + " /tmp/" + script.getName() + randomID);
+
+		// Convert randomID file to UNIX-good file w/ original filename
+		executeCommand("tr -d '\r' < /tmp/" + script.getName() + randomID + " > /tmp/" + script.getName());
+
+		// Give script executable permissions
 		executeCommand("chmod +x /tmp/" + script.getName());
-		return executeCommand("./tmp/" + script.getName());
+
+		// Execute new script file and extract response
+		String scriptResponse = executeCommand("./tmp/" + script.getName());
+
+		// Clean up both files
+		executeCommand("rm /tmp/" + script.getName());
+		executeCommand("rm /tmp/" + script.getName() + randomID);
+
+		return scriptResponse;
 	}
 
 	public String executeCommand(String command) throws Exception {
@@ -83,7 +105,8 @@ public class ServerShell {
 		String errLine = brErr.readLine();
 		while (errLine != null) {
 			errLine = brErr.readLine();
-			Logger.log("Error executing command: " + command + " on server hostname: " + server.getServerName() + " - " + errLine);
+			Logger.log("* Error executing command: " + command + " on server hostname: " + server.getServerName() + " - " + errLine);
+			return errLine;
 		}
 
 		Logger.log("Command execution Exit Code: " + session.getExitStatus());
@@ -143,5 +166,18 @@ public class ServerShell {
 		public int getPromptCount() {
 			return promptCount;
 		}
+	}
+
+	public static int randInt(int min, int max) {
+
+		// NOTE: Usually this should be a field rather than a method
+		// variable so that it is not re-seeded every call.
+		Random rand = new Random();
+
+		// nextInt is normally exclusive of the top value,
+		// so add 1 to make it inclusive
+		int randomNum = rand.nextInt((max - min) + 1) + min;
+
+		return randomNum;
 	}
 }
