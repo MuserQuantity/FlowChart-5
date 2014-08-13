@@ -66,24 +66,28 @@ public class RawResponseCSV {
 					rowIter++;
 
 					for (CmdScript cs : s.getCmdScriptList()) {
+
 						// Do special parsing behavior for 'cat' results
-						// TODO: dumb consumption of responses ATM
-						for (String[] logEntry : catLogParser(cs.getResponse())) {
-							HSSFRow entryRow = sheet.createRow(rowIter);
+						if (cs.isCmd() && cs.getData().contains("cat ")) {
 
-							HSSFCell timeCell = entryRow.createCell(1);
-							timeCell.setCellValue(logEntry[1]);
+							for (String[] logEntry : catLogParser(cs.getResponse())) {
+								HSSFRow entryRow = sheet.createRow(rowIter);
 
-							HSSFCell countCell = entryRow.createCell(2);
-							countCell.setCellValue(Integer.parseInt(logEntry[0]));
+								HSSFCell timeCell = entryRow.createCell(1);
+								timeCell.setCellValue(logEntry[1]);
 
-							if (rowIter % 2 == 0) {
-								timeCell.setCellStyle(lightGreyStyle);
-								countCell.setCellStyle(lightGreyStyle);
+								HSSFCell countCell = entryRow.createCell(2);
+								countCell.setCellValue(Integer.parseInt(logEntry[0]));
+
+								if (rowIter % 2 == 0) {
+									timeCell.setCellStyle(lightGreyStyle);
+									countCell.setCellStyle(lightGreyStyle);
+								}
+
+								rowIter++;
 							}
-
-							rowIter++;
 						}
+
 						rowIter++;
 					}
 					rowIter++;

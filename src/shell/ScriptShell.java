@@ -3,6 +3,7 @@ package shell;
 import java.io.File;
 import java.io.FileInputStream;
 
+import log.Logger;
 import model.Server;
 
 import com.jcraft.jsch.Channel;
@@ -17,8 +18,6 @@ public class ScriptShell {
 		Channel channel = null;
 		ChannelSftp channelSftp = null;
 
-		System.out.println("preparing host info for sftp");
-
 		try {
 			JSch jsch = new JSch();
 			session = jsch.getSession(username, server.getServerName());
@@ -28,26 +27,23 @@ public class ScriptShell {
 			session.setConfig(config);
 			session.connect();
 
-			System.out.println("Host connected.");
-
 			channel = session.openChannel("sftp");
 			channel.connect();
 
-			System.out.println("sftp channel opened and connected.");
-
 			channelSftp = (ChannelSftp) channel;
+
+			// Automatically cd move to /tmp/ directory
 			channelSftp.cd("/tmp/");
+
 			channelSftp.put(new FileInputStream(script), script.getName());
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Logger.log("* Error SFTP script file: " + script.getName() + " to Server hostname: " + server.getServerName());
 		} finally {
 			channelSftp.exit();
-			System.out.println("sftp channel exited");
 			channel.disconnect();
-			System.out.println("Channel disconnected.");
 			session.disconnect();
-			System.out.println("Host Session disconnected.");
 		}
 	}
 }
