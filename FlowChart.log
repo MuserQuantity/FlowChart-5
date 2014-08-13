@@ -6,3 +6,33 @@ Wed Aug 13 11:51:37 EDT 2014	User: sy12586 has SCRIPT queried server hostname: f
 Wed Aug 13 11:51:37 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Testing Script File
 Wed Aug 13 11:51:39 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
 Wed Aug 13 11:51:39 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Test Script File 2
+Wed Aug 13 11:56:17 EDT 2014	Error executing command: ./tmp/shellscript.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:56:17 EDT 2014	Command execution Exit Code: 126
+Wed Aug 13 11:56:17 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 11:56:17 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Testing Script File
+Wed Aug 13 11:56:19 EDT 2014	Error executing command: ./tmp/shellscript1.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:56:19 EDT 2014	Command execution Exit Code: 126
+Wed Aug 13 11:56:19 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 11:56:19 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Test Script File 2
+Wed Aug 13 11:58:29 EDT 2014	Error executing command: chmod +x shellscript.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:58:29 EDT 2014	Command execution Exit Code: 1
+Wed Aug 13 11:58:29 EDT 2014	Error executing command: ./tmp/shellscript.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:58:29 EDT 2014	Command execution Exit Code: 126
+Wed Aug 13 11:58:29 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 11:58:29 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Testing Script File
+Wed Aug 13 11:58:31 EDT 2014	Error executing command: chmod +x shellscript1.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:58:31 EDT 2014	Command execution Exit Code: 1
+Wed Aug 13 11:58:31 EDT 2014	Error executing command: ./tmp/shellscript1.sh on server hostname: fxpbps1u - null
+Wed Aug 13 11:58:31 EDT 2014	Command execution Exit Code: 126
+Wed Aug 13 11:58:31 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 11:58:31 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Test Script File 2
+Wed Aug 13 12:00:53 EDT 2014	Command execution Exit Code: 0
+Wed Aug 13 12:00:53 EDT 2014	Command execution Exit Code: 0
+Wed Aug 13 12:00:53 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 12:00:53 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Testing Script File
+Wed Aug 13 12:00:56 EDT 2014	Command execution Exit Code: 0
+Wed Aug 13 12:00:56 EDT 2014	Error executing command: ./tmp/shellscript1.sh on server hostname: fxpbps1u - ' unexpected
+Wed Aug 13 12:00:56 EDT 2014	Error executing command: ./tmp/shellscript1.sh on server hostname: fxpbps1u - null
+Wed Aug 13 12:00:56 EDT 2014	Command execution Exit Code: 3
+Wed Aug 13 12:00:56 EDT 2014	User: sy12586 has SCRIPT queried server hostname: fxpbps1u
+Wed Aug 13 12:00:56 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps1u in Flow: Test Script File 2

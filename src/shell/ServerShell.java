@@ -53,11 +53,9 @@ public class ServerShell {
 	}
 
 	public String executeScript(File script) throws Exception {
-
 		ScriptShell.sftpScriptFile(server, username, password, script);
-
-		return "";
-
+		executeCommand("chmod +x /tmp/" + script.getName());
+		return executeCommand("./tmp/" + script.getName());
 	}
 
 	public String executeCommand(String command) throws Exception {
