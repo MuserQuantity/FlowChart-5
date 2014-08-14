@@ -108,7 +108,8 @@ public class ServerShell {
 			return errLine;
 		}
 
-		Logger.log("Command execution Exit Code: " + session.getExitStatus());
+		// Logger.log("Command execution Exit Code: " +
+		// session.getExitStatus());
 
 		// Close the session
 		session.close();
