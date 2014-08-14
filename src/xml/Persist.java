@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -30,7 +32,8 @@ import org.xml.sax.SAXException;
 
 public class Persist {
 
-	static String savePath;
+	private static String savePath;
+	private static final String xsdName = "FlowChart_xml_schema.xsd";
 
 	public static Document sessionToXMLDoc(LinkedList<Flow> session) {
 
@@ -101,7 +104,15 @@ public class Persist {
 	}
 
 	public static boolean xmlSessionSchemaCheck(File xml) throws Exception {
-		File schemaFile = new File("FlowChart_xml_schema.xsd");
+		// Only works if in Eclipse project root directory
+		File schemaFile = new File(xsdName);
+
+		// Unzip from JAR executable if schemaFile isn't readily available
+		if (!schemaFile.exists() && Session.class.getResource("Session.class").toString().contains("jar")) {
+			// Retrieve schemaFile from JAR project executable/archive
+			schemaFile = retrieveXSDSchemaFromJAR();
+		}
+
 		Source xmlFile = new StreamSource(xml);
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(schemaFile);
@@ -114,6 +125,40 @@ public class Persist {
 			Logger.log("Error loading XML file " + xml.getName() + " due to XML malformity. Please check schema.");
 			return false;
 		}
+	}
+
+	static File retrieveXSDSchemaFromJAR() throws Exception {
+		String jarName = Session.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+		jarName = jarName.substring(jarName.lastIndexOf('/') + 1);
+
+		ZipInputStream zis = new ZipInputStream(new FileInputStream(new File(jarName)));
+		ZipEntry ze = zis.getNextEntry();
+
+		while (ze != null) {
+			String fileName = ze.getName();
+			if (fileName.equals(xsdName)) { // Found the XSD schema file
+				File xsdFile = new File(fileName);
+				// Populate data in xsdFile
+				FileOutputStream fos = new FileOutputStream(xsdFile);
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = zis.read(buffer)) > 0) {
+					fos.write(buffer, 0, len);
+				}
+				zis.closeEntry();
+				zis.close();
+				fos.close();
+
+				return xsdFile;
+			}
+			ze = zis.getNextEntry();
+		}
+		zis.closeEntry();
+		zis.close();
+
+		// Could not find XSD file
+		Alerts.infoBox("Schema XSD: " + xsdName + " could not be found.", "Schema Validator File Missing");
+		return null;
 	}
 
 	public static int scriptIntegrityCheck() {
