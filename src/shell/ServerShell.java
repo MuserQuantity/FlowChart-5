@@ -37,8 +37,7 @@ public class ServerShell {
 			for (CmdScript cs : server.getCmdScriptList()) {
 				// Only run connection on it if CmdScript is enabled
 				if (cs.isEnabled()) {
-					// If CMD
-					if (cs.isCmd()) {
+					if (cs.isCmd()) { // If CMD
 						cs.setResponse(executeCommand(cs.getData()));
 						Logger.log("User: " + username + " has CMD queried server hostname: " + server.getServerName());
 					} else { // If Script file

@@ -1,32 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
-         <!-- XML Schema Generated from XML Document on Mon Aug 11 2014 12:23:59 GMT-0400 (Eastern Daylight Time) -->
-         <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
-         <xs:element name="sy12586">
-               <xs:complexType>
-                     <xs:sequence>
-                           <xs:element name="flow" maxOccurs="unbounded">
-                                 <xs:complexType>
-                                       <xs:sequence>
-                                             <xs:element name="server" maxOccurs="unbounded">
-                                                   <xs:complexType>
-                                                         <xs:sequence>
-                                                               <xs:element name="csData">
-                                                                     <xs:complexType>
-                                                                           <xs:attribute name="isCmd" type="xs:string"></xs:attribute>
-                                                                           <xs:attribute name="CS_Data" type="xs:string"></xs:attribute>
-                                                                     </xs:complexType>
-                                                               </xs:element>
-                                                         </xs:sequence>
-                                                         <xs:attribute name="Server_Name" type="xs:string"></xs:attribute>
-                                                   </xs:complexType>
-                                             </xs:element>
-                                       </xs:sequence>
-                                       <xs:attribute name="Flow_Label" type="xs:string"></xs:attribute>
-                                       <xs:attribute name="isEnabled" type="xs:string"></xs:attribute>
-                                 </xs:complexType>
-                           </xs:element>
-                     </xs:sequence>
-               </xs:complexType>
-         </xs:element>
-   </xs:schema>
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="sy12586" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="sy12586" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="flow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="server" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="csData" minOccurs="0" maxOccurs="unbounded">
+                      <xs:complexType>
+                        <xs:attribute name="isCmd" type="xs:string" />
+                        <xs:attribute name="CS_Data" type="xs:string" />
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="Server_Name" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Flow_Label" type="xs:string" />
+            <xs:attribute name="isEnabled" type="xs:string" />
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

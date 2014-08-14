@@ -1,7 +1,5 @@
 package shell;
 
-import gui.QueryProgress;
-
 import java.util.LinkedList;
 
 import log.Alerts;
@@ -40,7 +38,6 @@ public class Access {
 				e.printStackTrace();
 				Logger.log("Error granting access for user: " + username + " to server hostname: " + s.getServerName() + " in Flow: " + flow.getLabel());
 			}
-			QueryProgress.progress++;
 		}
 
 		if (!accessDenyList.isEmpty()) {
