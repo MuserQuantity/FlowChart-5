@@ -124,6 +124,9 @@ public class Persist {
 			Alerts.infoBox(xml.getName() + " is not a valid XML Session file.", "Invalid XML");
 			Logger.log("Error loading XML file " + xml.getName() + " due to XML malformity. Please check schema.");
 			return false;
+		} finally {
+			// Remove xsdFile after use (to prevent corruption)
+			schemaFile.delete();
 		}
 	}
 

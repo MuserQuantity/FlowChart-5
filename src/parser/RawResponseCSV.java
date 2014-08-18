@@ -68,7 +68,7 @@ public class RawResponseCSV {
 					for (CmdScript cs : s.getCmdScriptList()) {
 
 						// Do special parsing behavior for 'cat' results
-						if (cs.isCmd() && cs.getData().contains("cat ")) {
+						if (cs.isCmd() && (cs.getData().contains("cat ") || cs.getData().contains("zgrep "))) {
 
 							for (String[] logEntry : catLogParser(cs.getResponse())) {
 								HSSFRow entryRow = sheet.createRow(rowIter);
