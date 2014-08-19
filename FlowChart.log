@@ -1,2 +1,13 @@
 Mon Aug 18 12:31:48 EDT 2014	Error detected in XML startup routine: schema_reference.4: Failed to read schema document 'file:/C:/Users/sy12586/Documents/GitHub/FlowChart/FlowChart_xml_schema.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.
 Mon Aug 18 12:31:50 EDT 2014	Error detected in XML startup routine: schema_reference.4: Failed to read schema document 'file:/C:/Users/sy12586/Documents/GitHub/FlowChart/FlowChart_xml_schema.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.
+Tue Aug 19 11:28:59 EDT 2014	Error detected in XML startup routine: schema_reference.4: Failed to read schema document 'file:/C:/Users/sy12586/Documents/GitHub/FlowChart/FlowChart_xml_schema.xsd', because 1) could not find the document; 2) the document could not be read; 3) the root element of the document is not <xsd:schema>.
+Tue Aug 19 11:58:27 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Tue Aug 19 11:58:27 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Tue Aug 19 11:58:29 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Tue Aug 19 11:58:29 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Tue Aug 19 11:58:33 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Tue Aug 19 11:58:33 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Tue Aug 19 11:58:37 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps22
+Tue Aug 19 11:58:37 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FUT Trades
+Tue Aug 19 11:58:57 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps22
+Tue Aug 19 11:58:57 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FX Trades

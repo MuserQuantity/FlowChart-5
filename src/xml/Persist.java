@@ -106,11 +106,13 @@ public class Persist {
 	public static boolean xmlSessionSchemaCheck(File xml) throws Exception {
 		// Only works if in Eclipse project root directory
 		File schemaFile = new File(xsdName);
+		boolean sourceFromZip = false;
 
 		// Unzip from JAR executable if schemaFile isn't readily available
 		if (!schemaFile.exists() && Session.class.getResource("Session.class").toString().contains("jar")) {
 			// Retrieve schemaFile from JAR project executable/archive
 			schemaFile = retrieveXSDSchemaFromJAR();
+			sourceFromZip = true;
 		}
 
 		Source xmlFile = new StreamSource(xml);
@@ -126,7 +128,8 @@ public class Persist {
 			return false;
 		} finally {
 			// Remove xsdFile after use (to prevent corruption)
-			schemaFile.delete();
+			if (sourceFromZip)
+				schemaFile.delete();
 		}
 	}
 
