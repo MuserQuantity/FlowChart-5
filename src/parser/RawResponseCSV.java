@@ -43,6 +43,54 @@ public class RawResponseCSV {
 		blueStyle.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
 		blueStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
+		// Create Flow time/count aggregation sheet
+		HSSFSheet aggSheet = workbook.createSheet("Flows");
+
+		// Setup Server hostname headers
+		HSSFRow serverHeader = aggSheet.createRow(0);
+
+		// Setup item headers for aggregated columns
+		HSSFRow aggHeader = aggSheet.createRow(1);
+		HSSFCell timeHead = aggHeader.createCell(0);
+		timeHead.setCellValue("Time");
+		timeHead.setCellStyle(blueStyle);
+		// Create a flow label count header for each enabled flow
+		int col = 1;
+		for (Flow f : Session.session) {
+			if (f.isEnabled()) {
+				// Only if this flow contains a "zgrep" or "cat" cmd
+				isFlow: for (Server s : f.getServerList()) {
+					for (CmdScript cs : s.getCmdScriptList()) {
+						if (cs.isCmd() && (cs.getData().contains("zgrep ") || cs.getData().contains("cat "))) {
+							HSSFCell flowHead = aggHeader.createCell(col);
+							flowHead.setCellValue(f.getLabel());
+							flowHead.setCellStyle(blueStyle);
+
+							// Also populate respective server hostnames
+							HSSFCell serverHead = serverHeader.createCell(col);
+							serverHead.setCellValue(s.getServerName());
+							serverHead.setCellStyle(goldStyle);
+							col++;
+							break isFlow;
+						}
+					}
+				}
+			}
+		}
+
+		int row = 2;
+		// Set granular time column from 00:00 to 16:00
+		for (int hour = 0; hour <= 16; hour++) {
+			for (int min = 0; min <= 59; min++) {
+				HSSFRow tempRow = aggSheet.createRow(row);
+
+			}
+		}
+		// Auto size columns for aggregate sheet
+		for (int i = 0; i < 10; i++) {
+			aggSheet.autoSizeColumn(i);
+		}
+
 		for (Flow f : Session.session) {
 			if (f.isEnabled()) {
 				// Create a new sheet per enabled Flow
@@ -96,11 +144,29 @@ public class RawResponseCSV {
 				sheet.autoSizeColumn(1);
 				sheet.autoSizeColumn(2);
 			}
-
 		}
 
 		writeCSVFile(filepath, workbook);
 
+	}
+
+	// Helper method to convert int hour and min to standard String
+	static String numToTime(int hour, int min) {
+		StringBuilder sb = new StringBuilder();
+
+		String h = String.valueOf(hour);
+		String m = String.valueOf(min);
+
+		if (h.length() < 2)
+			h = "0" + h;
+		if (m.length() < 2)
+			m = "0" + m;
+
+		sb.append(h);
+		sb.append(":");
+		sb.append(m);
+
+		return sb.toString();
 	}
 
 	static void writeCSVFile(String filepath, HSSFWorkbook workbook) {

@@ -11,3 +11,14 @@ Tue Aug 19 11:58:37 EDT 2014	User: sy12586 has CMD queried server hostname: fxpb
 Tue Aug 19 11:58:37 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FUT Trades
 Tue Aug 19 11:58:57 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps22
 Tue Aug 19 11:58:57 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FX Trades
+Wed Aug 20 10:58:47 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Wed Aug 20 10:58:47 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: PBTG
+Wed Aug 20 10:58:49 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Wed Aug 20 10:58:49 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM FIX Inbound
+Wed Aug 20 10:58:51 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps7
+Wed Aug 20 10:58:51 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps7 in Flow: TRM Status Event
+Wed Aug 20 10:58:55 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps22
+Wed Aug 20 10:58:55 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FUT Trades
+Wed Aug 20 10:59:15 EDT 2014	User: sy12586 has CMD queried server hostname: fxpbps22
+Wed Aug 20 10:59:15 EDT 2014	* Access GRANTED to sy12586 for server hostname: fxpbps22 in Flow: FX Trades
+Wed Aug 20 10:59:21 EDT 2014	Exported raw response spreadsheet to: C:\Users\sy12586\Documents\oos.xls
