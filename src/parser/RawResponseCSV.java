@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 
 import log.Alerts;
@@ -43,11 +44,18 @@ public class RawResponseCSV {
 		blueStyle.setFillForegroundColor(HSSFColor.LIGHT_CORNFLOWER_BLUE.index);
 		blueStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 
+		HSSFCellStyle redStyle = workbook.createCellStyle();
+		redStyle.setFillForegroundColor(HSSFColor.GREY_50_PERCENT.index);
+		redStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
 		// Create Flow time/count aggregation sheet
 		HSSFSheet aggSheet = workbook.createSheet("Flows");
 
 		// Setup Server hostname headers
 		HSSFRow serverHeader = aggSheet.createRow(0);
+
+		HSSFCell creationTime = serverHeader.createCell(0);
+		creationTime.setCellValue("Report created: " + new Date(System.currentTimeMillis()).toString());
 
 		// Setup item headers for aggregated columns
 		HSSFRow aggHeader = aggSheet.createRow(1);
@@ -79,75 +87,56 @@ public class RawResponseCSV {
 		}
 
 		int row = 2;
-		// Set granular time column from 00:00 to 16:00
-		for (int hour = 0; hour <= 16; hour++) {
+		col = 1;
+		// Set granular time column from 00:00 to 23:59
+		for (int hour = 0; hour <= 15; hour++) {
 			for (int min = 0; min <= 59; min++) {
+				String time = numToTime(hour, min);
 				HSSFRow tempRow = aggSheet.createRow(row);
+				HSSFCell timeCell = tempRow.createCell(0);
+				timeCell.setCellValue(time);
 
+				// Set alternating gray row theme
+				if (row % 2 == 0)
+					timeCell.setCellStyle(lightGreyStyle);
+
+				for (Flow f : Session.session) {
+					if (f.isEnabled()) {
+						// Only if this flow contains a "zgrep" or "cat" cmd
+						fillCount: for (Server s : f.getServerList()) {
+							for (CmdScript cs : s.getCmdScriptList()) {
+								if (cs.isCmd() && (cs.getData().contains("zgrep ") || cs.getData().contains("cat "))) {
+									HSSFCell countCell = tempRow.createCell(col);
+									// Find the count value equal to the current
+									// time row being populated
+									for (String[] logEntry : catLogParser(cs.getResponse())) {
+										if (logEntry[0].equals(time)) {
+											countCell.setCellValue(Integer.valueOf(logEntry[1]));
+											if (row % 2 == 0)
+												countCell.setCellStyle(lightGreyStyle);
+											col++;
+											break fillCount;
+										}
+									}
+									// If the time entry doesn't exist
+									countCell.setCellStyle(redStyle);
+									col++;
+									break fillCount;
+								}
+							}
+						}
+					}
+				}
+				row++;
+				col = 1;
 			}
 		}
 		// Auto size columns for aggregate sheet
-		for (int i = 0; i < 10; i++) {
+		for (int i = 1; i < 10; i++) {
 			aggSheet.autoSizeColumn(i);
 		}
 
-		for (Flow f : Session.session) {
-			if (f.isEnabled()) {
-				// Create a new sheet per enabled Flow
-				HSSFSheet sheet = workbook.createSheet(f.getLabel());
-				int rowIter = 0;
-
-				// For each Server in this Flow, do special parsing behavior
-				for (Server s : f.getServerList()) {
-					// Header contains server, time, count
-					HSSFRow headerRow = sheet.createRow(rowIter);
-					HSSFCell serverHead = headerRow.createCell(0);
-					serverHead.setCellValue(s.getServerName());
-					serverHead.setCellStyle(goldStyle);
-					HSSFCell timeHead = headerRow.createCell(1);
-					timeHead.setCellValue("Time");
-					timeHead.setCellStyle(blueStyle);
-					HSSFCell countHead = headerRow.createCell(2);
-					countHead.setCellValue("Count");
-					countHead.setCellStyle(blueStyle);
-
-					rowIter++;
-
-					for (CmdScript cs : s.getCmdScriptList()) {
-
-						// Do special parsing behavior for 'cat' results
-						if (cs.isCmd() && (cs.getData().contains("cat ") || cs.getData().contains("zgrep "))) {
-
-							for (String[] logEntry : catLogParser(cs.getResponse())) {
-								HSSFRow entryRow = sheet.createRow(rowIter);
-
-								HSSFCell timeCell = entryRow.createCell(1);
-								timeCell.setCellValue(logEntry[1]);
-
-								HSSFCell countCell = entryRow.createCell(2);
-								countCell.setCellValue(Integer.parseInt(logEntry[0]));
-
-								if (rowIter % 2 == 0) {
-									timeCell.setCellStyle(lightGreyStyle);
-									countCell.setCellStyle(lightGreyStyle);
-								}
-
-								rowIter++;
-							}
-						}
-
-						rowIter++;
-					}
-					rowIter++;
-				}
-				sheet.autoSizeColumn(0);
-				sheet.autoSizeColumn(1);
-				sheet.autoSizeColumn(2);
-			}
-		}
-
 		writeCSVFile(filepath, workbook);
-
 	}
 
 	// Helper method to convert int hour and min to standard String
@@ -194,6 +183,9 @@ public class RawResponseCSV {
 
 		for (String line : response.split("\n")) {
 			String[] lineSplit = line.trim().split(" ");
+			String temp = lineSplit[0];
+			lineSplit[0] = lineSplit[1];
+			lineSplit[1] = temp;
 
 			catLog.add(lineSplit);
 		}

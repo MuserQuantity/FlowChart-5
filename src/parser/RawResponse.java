@@ -104,7 +104,7 @@ public class RawResponse {
 		rightPane.setLayout(new BorderLayout());
 		responseArea = new JTextArea();
 		responseScrollPane = new JScrollPane(responseArea);
-		responseScrollPane.setBorder(BorderFactory.createTitledBorder("Flow Responses"));
+		responseScrollPane.setBorder(BorderFactory.createTitledBorder("Flow Responses for: " + flowListModel.getElementAt(0)));
 		responseArea.setEditable(false);
 		responseArea.setFont(new Font("Consolas", Font.PLAIN, 12));
 		responseArea.setLineWrap(false);
@@ -172,6 +172,7 @@ public class RawResponse {
 	void updateResponsePane(int index) {
 		responseArea.setText(flowListModel.getElementAt(index).collateResponses());
 		responseArea.setCaretPosition(0);
+		responseScrollPane.setBorder(BorderFactory.createTitledBorder("Flow Responses for: " + flowListModel.getElementAt(index)));
 		frame.revalidate();
 		frame.repaint();
 	}
